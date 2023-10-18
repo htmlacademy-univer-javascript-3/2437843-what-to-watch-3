@@ -1,4 +1,4 @@
-import {MainPage, MainPageProps} from './components/pages/MainPage';
+import {MainPage, MainPageProps} from './components/pages/main-page';
 
 type AppProps = {
     mainPageParams: MainPageProps;

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Film} from '../../types/film';
-import {FilmCard} from '../films/FilmCard';
+import {FilmCard} from '../films/film-card';
 
 export type MainPageProps = {
     promoFilm: Film;

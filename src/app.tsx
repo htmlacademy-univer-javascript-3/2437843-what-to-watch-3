@@ -14,7 +14,7 @@ type AppProps = {
     mockFilms: Array<Film>;
 }
 
-export function App({mainPageParams}: AppProps) {
+export function App({mainPageParams, mockFilms}: AppProps) {
   return (
     <BrowserRouter>
       <Routes>
@@ -22,13 +22,13 @@ export function App({mainPageParams}: AppProps) {
         <Route path="/login" element={<SignInPage/>}/>
         <Route path="/mylist" element={
           <PrivateRoute>
-            <MyListPage/>
+            <MyListPage films={mockFilms}/>
           </PrivateRoute>
         }
         />
-        <Route path="/films/:id" element={<MoviePage/>}/>
-        <Route path="/films/:id/review" element={<AddReviewPage/>}/>
-        <Route path="/player/:id" element={<PlayerPage/>}/>
+        <Route path="/films/:id" element={<MoviePage films={mockFilms}/>}/>
+        <Route path="/films/:id/review" element={<AddReviewPage films={mockFilms}/>}/>
+        <Route path="/player/:id" element={<PlayerPage films={mockFilms}/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Routes>
     </BrowserRouter>

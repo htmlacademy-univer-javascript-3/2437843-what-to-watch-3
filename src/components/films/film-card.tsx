@@ -1,5 +1,6 @@
 import {Film} from '../../types/film';
-import {MouseEventHandler} from "react";
+import {MouseEventHandler} from 'react';
+import {Link} from 'react-router-dom';
 
 type FilmCardPros = {
   film: Film;
@@ -14,7 +15,7 @@ export function FilmCard({film, onMouseLeave, onMouseEnter}: FilmCardPros){
         <img src={film.poster} alt="Snatch" width="280" height="175"/>
       </div>
       <h3 className="small-film-card__title">
-        <a className="small-film-card__link" href="film-page.html">{film.name}</a>
+        <Link to={`/films/${film.id}`} className="small-film-card__link">{film.name}</Link>
       </h3>
     </article>);
 }

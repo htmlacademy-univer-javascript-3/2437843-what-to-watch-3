@@ -1,26 +1,43 @@
-export function AddReviewPage(){
+import {Link, useParams} from 'react-router-dom';
+import {NotFound} from './not-found';
+import {Film} from '../../types/film';
+import {ChangeEvent, useState} from 'react';
+
+type AddReviewPageProps = {
+  films: Array<Film>;
+}
+
+export function AddReviewPage({films}: AddReviewPageProps){
+  const {id} = useParams();
+  const [selectedRating, setRating] = useState(0);
+  const [reviewText, setReviewText] = useState('');
+  const film = films.find((item) => String(item.id) === id);
+  if (!film || !id){
+    return (<NotFound/>);
+  }
+  const handleRatingChange = (event: ChangeEvent<HTMLInputElement>) => setRating(parseInt(event.target.value, 10));
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel"/>
+          <img src={film.backgroundImage} alt={film.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header">
           <div className="logo">
-            <a href="main.html" className="logo__link">
+            <Link to={'/'} className="logo__link">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            </Link>
           </div>
 
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">The Grand Budapest Hotel</a>
+                <Link to={`/films/${film.id}`} className="breadcrumbs__link">{film.name}</Link>
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link">Add review</a>
@@ -41,7 +58,7 @@ export function AddReviewPage(){
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218"
+          <img src={film.poster} alt={film.name} width="218"
             height="327"
           />
         </div>
@@ -51,40 +68,42 @@ export function AddReviewPage(){
         <form action="#" className="add-review__form">
           <div className="rating">
             <div className="rating__stars">
-              <input className="rating__input" id="star-10" type="radio" name="rating" value="10"/>
+              <input className="rating__input" id="star-10" type="radio" name="rating" checked={selectedRating === 10} onChange={handleRatingChange} value={10}/>
               <label className="rating__label" htmlFor="star-10">Rating 10</label>
 
-              <input className="rating__input" id="star-9" type="radio" name="rating" value="9"/>
+              <input className="rating__input" id="star-9" type="radio" name="rating" checked={selectedRating === 9} onChange={handleRatingChange} value={9}/>
               <label className="rating__label" htmlFor="star-9">Rating 9</label>
 
-              <input className="rating__input" id="star-8" type="radio" name="rating" value="8" checked/>
+              <input className="rating__input" id="star-8" type="radio" name="rating" checked={selectedRating === 8} onChange={handleRatingChange} value={8}/>
               <label className="rating__label" htmlFor="star-8">Rating 8</label>
 
-              <input className="rating__input" id="star-7" type="radio" name="rating" value="7"/>
+              <input className="rating__input" id="star-7" type="radio" name="rating" checked={selectedRating === 7} onChange={handleRatingChange} value={7}/>
               <label className="rating__label" htmlFor="star-7">Rating 7</label>
 
-              <input className="rating__input" id="star-6" type="radio" name="rating" value="6"/>
+              <input className="rating__input" id="star-6" type="radio" name="rating" checked={selectedRating === 6} onChange={handleRatingChange} value={6}/>
               <label className="rating__label" htmlFor="star-6">Rating 6</label>
 
-              <input className="rating__input" id="star-5" type="radio" name="rating" value="5"/>
+              <input className="rating__input" id="star-5" type="radio" name="rating" checked={selectedRating === 5} onChange={handleRatingChange} value={5}/>
               <label className="rating__label" htmlFor="star-5">Rating 5</label>
 
-              <input className="rating__input" id="star-4" type="radio" name="rating" value="4"/>
+              <input className="rating__input" id="star-4" type="radio" name="rating" checked={selectedRating === 4} onChange={handleRatingChange} value={4}/>
               <label className="rating__label" htmlFor="star-4">Rating 4</label>
 
-              <input className="rating__input" id="star-3" type="radio" name="rating" value="3"/>
+              <input className="rating__input" id="star-3" type="radio" name="rating" checked={selectedRating === 3} onChange={handleRatingChange} value={3}/>
               <label className="rating__label" htmlFor="star-3">Rating 3</label>
 
-              <input className="rating__input" id="star-2" type="radio" name="rating" value="2"/>
+              <input className="rating__input" id="star-2" type="radio" name="rating" checked={selectedRating === 2} onChange={handleRatingChange} value={2}/>
               <label className="rating__label" htmlFor="star-2">Rating 2</label>
 
-              <input className="rating__input" id="star-1" type="radio" name="rating" value="1"/>
+              <input className="rating__input" id="star-1" type="radio" name="rating" checked={selectedRating === 1} onChange={handleRatingChange} value={1}/>
               <label className="rating__label" htmlFor="star-1">Rating 1</label>
             </div>
           </div>
 
           <div className="add-review__text">
             <textarea className="add-review__textarea" name="review-text" id="review-text"
+              value={reviewText}
+              onChange={(event) => setReviewText(event.target.value)}
               placeholder="Review text"
             >
             </textarea>

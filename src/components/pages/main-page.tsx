@@ -1,6 +1,7 @@
 import React from 'react';
 import {Film} from '../../types/film';
 import {FilmsList} from '../films/films-list';
+import {Link} from 'react-router-dom';
 
 export type MainPageProps = {
     promoFilm: Film;
@@ -54,12 +55,12 @@ export function MainPage({promoFilm, filmsList}: MainPageProps){
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <Link to={`/player/${promoFilm.id}`} className="btn btn--play film-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
-                </button>
+                </Link>
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>

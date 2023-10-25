@@ -7,9 +7,11 @@ import {NotFound} from './components/pages/not-found';
 import {SignInPage} from './components/pages/sign-in-page';
 import {PrivateRoute} from './components/routes/private-route';
 import {MyListPage} from './components/pages/my-list-page';
+import {Film} from './types/film';
 
 type AppProps = {
     mainPageParams: MainPageProps;
+    mockFilms: Array<Film>;
 }
 
 export function App({mainPageParams}: AppProps) {

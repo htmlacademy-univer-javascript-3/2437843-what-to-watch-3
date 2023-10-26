@@ -1,18 +1,21 @@
+import {Film} from '../../types/film';
+import {MouseEventHandler} from 'react';
+import {Link} from 'react-router-dom';
 
 type FilmCardPros = {
-  image: string;
-  name: string;
-
+  film: Film;
+  onMouseEnter: MouseEventHandler;
+  onMouseLeave: MouseEventHandler;
 }
 
-export function FilmCard({image, name}: FilmCardPros){
+export function FilmCard({film, onMouseLeave, onMouseEnter}: FilmCardPros){
   return (
-    <article className="small-film-card catalog__films-card">
+    <article className="small-film-card catalog__films-card" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <div className="small-film-card__image">
-        <img src={image} alt="Snatch" width="280" height="175"/>
+        <img src={film.poster} alt="Snatch" width="280" height="175"/>
       </div>
       <h3 className="small-film-card__title">
-        <a className="small-film-card__link" href="film-page.html">{name}</a>
+        <Link to={`/films/${film.id}`} className="small-film-card__link">{film.name}</Link>
       </h3>
     </article>);
 }

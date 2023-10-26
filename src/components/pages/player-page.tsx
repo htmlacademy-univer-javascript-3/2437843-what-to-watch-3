@@ -1,11 +1,22 @@
+import {useNavigate, useParams} from 'react-router-dom';
+import {Film} from '../../types/film';
+import {NotFound} from './not-found';
 
-
-export function PlayerPage(){
+type PlayerPageProps = {
+  films: Array<Film>;
+}
+export function PlayerPage({films}: PlayerPageProps){
+  const {id} = useParams();
+  const navigate = useNavigate();
+  const film = films.find((item) => String(item.id) === id);
+  if (!film || !id){
+    return (<NotFound/>);
+  }
   return (
     <div className="player">
-      <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
+      <video src={film.videoUrl} className="player__video" poster="img/player-poster.jpg"></video>
 
-      <button type="button" className="player__exit">Exit</button>
+      <button type="button" className="player__exit" onClick={() => navigate(-1)}>Exit</button>
 
       <div className="player__controls">
         <div className="player__controls-row">

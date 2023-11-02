@@ -40,7 +40,7 @@ export const MOCK_FILMS: Array<Film> = [
       score: Math.floor(Math.random() * 100) / 10,
       count: 100 + Math.floor(Math.random() * 100)
     },
-    videoUrl: 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     inFavoriteList: false,
   },
   {
@@ -61,7 +61,7 @@ export const MOCK_FILMS: Array<Film> = [
       score: Math.floor(Math.random() * 100) / 10,
       count: 100 + Math.floor(Math.random() * 100)
     },
-    videoUrl: 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     inFavoriteList: false,
   },
   {
@@ -82,7 +82,7 @@ export const MOCK_FILMS: Array<Film> = [
       score: Math.floor(Math.random() * 100) / 10,
       count: 100 + Math.floor(Math.random() * 100)
     },
-    videoUrl: 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     inFavoriteList: false,
   },
   {
@@ -103,7 +103,7 @@ export const MOCK_FILMS: Array<Film> = [
       score: Math.floor(Math.random() * 100) / 10,
       count: 100 + Math.floor(Math.random() * 100)
     },
-    videoUrl: 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     inFavoriteList: false,
   },
   {
@@ -124,7 +124,7 @@ export const MOCK_FILMS: Array<Film> = [
       score: Math.floor(Math.random() * 100) / 10,
       count: 100 + Math.floor(Math.random() * 100)
     },
-    videoUrl: 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     inFavoriteList: false,
   },
   {
@@ -145,7 +145,7 @@ export const MOCK_FILMS: Array<Film> = [
       score: Math.floor(Math.random() * 100) / 10,
       count: 100 + Math.floor(Math.random() * 100)
     },
-    videoUrl: 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     inFavoriteList: false,
   },
   {
@@ -166,7 +166,7 @@ export const MOCK_FILMS: Array<Film> = [
       score: Math.floor(Math.random() * 100) / 10,
       count: 100 + Math.floor(Math.random() * 100)
     },
-    videoUrl: 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     inFavoriteList: false,
   },
 ];

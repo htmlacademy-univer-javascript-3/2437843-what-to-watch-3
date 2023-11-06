@@ -3,6 +3,8 @@ import {Film} from '../../types/film';
 import {Link, useParams} from 'react-router-dom';
 import {NotFound} from './not-found';
 import {FilmsList} from '../films/films-list';
+import {Footer} from '../parts/footer';
+import {Tabs} from '../tabs/tabs';
 
 type MoviePagePops = {
   films: Array<Film>;
@@ -80,42 +82,7 @@ export function MoviePage({films}: MoviePagePops){
                 height="327"
               />
             </div>
-
-            <div className="film-card__desc">
-              <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <a href="#" className="film-nav__link">Overview</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Details</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Reviews</a>
-                  </li>
-                </ul>
-              </nav>
-
-              <div className="film-rating">
-                <div className="film-rating__score">{film.rating.score}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">{film.rating.score > 8 ? 'Very good' : 'Not good'} </span>
-                  <span className="film-rating__count">{film.rating.score}</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                <p>{film.description}</p>
-
-                <p className="film-card__director"><strong>Director: {film.director}</strong></p>
-
-                <p className="film-card__starring">
-                  <strong>
-                    {film.starring}
-                  </strong>
-                </p>
-              </div>
-            </div>
+            <Tabs film={film}/>
           </div>
         </div>
       </section>
@@ -123,22 +90,9 @@ export function MoviePage({films}: MoviePagePops){
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <FilmsList films={films.slice(2, 5)}/>
+          <FilmsList films={films.filter((item) => item.genre === film.genre).slice(0, 4)}/>
         </section>
-
-        <footer className="page-footer">
-          <div className="logo">
-            <Link to={'/'} className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </Link>
-          </div>
-
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer/>
       </div>
     </React.Fragment>
   );

@@ -8,11 +8,12 @@ export type Film = {
   poster: string;
   backgroundImage: string;
   director: string;
-  starring: string;
+  starring: Array<string>;
   description: string;
   rating: Rating;
   videoUrl: string;
   inFavoriteList: boolean;
+  runTime: string;
 }
 
 

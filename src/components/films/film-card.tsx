@@ -2,6 +2,7 @@ import {Film} from '../../types/film';
 import {MouseEventHandler, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {Video} from '../video/video';
+import {PREVIEW_TIMEOUT} from '../../consts';
 
 type FilmCardPros = {
   film: Film;
@@ -16,7 +17,7 @@ export function FilmCard({film, onMouseLeave, onMouseEnter, isSelected}: FilmCar
     if (isSelected) {
       const timer = setTimeout(() => {
         setIsPlaying(true);
-      }, 1000);
+      }, PREVIEW_TIMEOUT);
       return () => clearTimeout(timer);
     } else {
       setIsPlaying(false);

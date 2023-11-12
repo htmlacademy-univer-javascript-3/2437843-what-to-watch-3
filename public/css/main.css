@@ -866,6 +866,8 @@ main {
   color: #EEE5B5;
   text-decoration: none;
   position: relative;
+  background: transparent;
+  border: 0;
   padding-bottom: 19px; }
   .film-nav__link::after {
     content: '';

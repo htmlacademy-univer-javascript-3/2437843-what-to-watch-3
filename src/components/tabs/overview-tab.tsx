@@ -12,7 +12,7 @@ export function OverviewTab({film}: OverviewTabProps){
         <div className="film-rating__score">{film.rating.score}</div>
         <p className="film-rating__meta">
           <span className="film-rating__level">{film.rating.score > 8 ? 'Very good' : 'Not good'} </span>
-          <span className="film-rating__count">{film.rating.score}</span>
+          <span className="film-rating__count">{film.rating.count}</span>
         </p>
       </div>
 

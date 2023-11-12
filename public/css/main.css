@@ -529,6 +529,8 @@ main {
   display: block;
   color: #DFCF77;
   text-decoration: none;
+  background: transparent;
+  border: 0;
   position: relative;
   padding-bottom: 15px;
   -webkit-transition: font-weight;

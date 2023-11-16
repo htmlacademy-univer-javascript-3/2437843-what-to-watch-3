@@ -32,13 +32,13 @@ export function Tabs({film}: TabsProps) {
       <nav className="film-nav film-card__nav">
         <ul className="film-nav__list">
           <li className={cn('film-nav__item', {'film-nav__item--active': currentTab === TabType.Overview})}>
-            <a onClick={() => setCurrentTab(TabType.Overview)} className="film-nav__link">Overview</a>
+            <button onClick={() => setCurrentTab(TabType.Overview)} className="film-nav__link">Overview</button>
           </li>
           <li className={cn('film-nav__item', {'film-nav__item--active': currentTab === TabType.Details})}>
-            <a onClick={() => setCurrentTab(TabType.Details)} className="film-nav__link">Details</a>
+            <button onClick={() => setCurrentTab(TabType.Details)} className="film-nav__link">Details</button>
           </li>
           <li className={cn('film-nav__item', {'film-nav__item--active': currentTab === TabType.Reviews})}>
-            <a onClick={() => setCurrentTab(TabType.Reviews)} className="film-nav__link">Reviews</a>
+            <button onClick={() => setCurrentTab(TabType.Reviews)} className="film-nav__link">Reviews</button>
           </li>
         </ul>
       </nav>

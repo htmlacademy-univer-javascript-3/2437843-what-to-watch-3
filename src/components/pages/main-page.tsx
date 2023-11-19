@@ -4,9 +4,11 @@ import {FilmsList} from '../films/films-list';
 import {Link} from 'react-router-dom';
 import {Footer} from '../parts/footer';
 import {GenresList} from '../films/genres-list';
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../../store/reducer';
-import {fetchFilms} from '../../store/action';
+import {useDispatch} from 'react-redux';
+import {fetchFilms, setGenreFilter, setLimitFilms} from '../../store/action';
+import {ALL_GENRES, INIT_FILMS_LIMIT} from '../../consts';
+import {useAppSelector} from '../../store/hooks/use-app-selector';
+import {ShowMoreButton} from '../films/show-more-button';
 
 export type MainPageProps = {
     promoFilm: Film;
@@ -14,12 +16,18 @@ export type MainPageProps = {
 }
 
 export function MainPage({promoFilm, filmsList}: MainPageProps){
-  const filteredFilms = useSelector((state: RootState) => state.films);
-  const selectedGenre = useSelector((state: RootState) => state.genreFilter);
+  const filteredFilms = useAppSelector((state) => state.films);
+  const limitFilms = useAppSelector((state) => state.limitFilms);
+  const selectedGenre = useAppSelector((state) => state.genreFilter);
+  const totalFilmsCount = useAppSelector((state) => state.totalFilmsCount);
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(setGenreFilter(ALL_GENRES));
+    dispatch(setLimitFilms(INIT_FILMS_LIMIT));
+  }, [dispatch]);
+  useEffect(() => {
     dispatch(fetchFilms());
-  }, [dispatch, selectedGenre]);
+  }, [dispatch, selectedGenre, limitFilms]);
   return (
     <React.Fragment>
       <section className="film-card">
@@ -90,11 +98,8 @@ export function MainPage({promoFilm, filmsList}: MainPageProps){
           <h2 className="catalog__title visually-hidden">Catalog</h2>
           <GenresList genres={new Set(filmsList.map((film) => film.genre))}/>
           <FilmsList films={filteredFilms}/>
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          {filteredFilms.length < totalFilmsCount && <ShowMoreButton/>}
         </section>
-
         <Footer/>
       </div>
     </React.Fragment>

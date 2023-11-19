@@ -1,15 +1,15 @@
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../../store/reducer';
+import {useDispatch} from 'react-redux';
 import cn from 'classnames';
 import {ALL_GENRES} from '../../consts';
 import {setGenreFilter} from '../../store/action';
+import {useAppSelector} from '../../store/hooks/use-app-selector';
 
 type GenresListProps = {
   genres: Set<string>;
 }
 
 export function GenresList({genres}:GenresListProps){
-  const selectedGenre = useSelector((state:RootState) => state.genreFilter);
+  const selectedGenre = useAppSelector((state) => state.genreFilter);
   const dispatch = useDispatch();
   return (
     <ul className="catalog__genres-list">

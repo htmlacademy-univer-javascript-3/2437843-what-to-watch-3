@@ -12,10 +12,9 @@ import {ShowMoreButton} from '../films/show-more-button';
 
 export type MainPageProps = {
     promoFilm: Film;
-    filmsList: Array<Film>;
 }
 
-export function MainPage({promoFilm, filmsList}: MainPageProps){
+export function MainPage({promoFilm}: MainPageProps){
   const filteredFilms = useAppSelector((state) => state.films);
   const limitFilms = useAppSelector((state) => state.limitFilms);
   const selectedGenre = useAppSelector((state) => state.genreFilter);
@@ -96,7 +95,7 @@ export function MainPage({promoFilm, filmsList}: MainPageProps){
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <GenresList genres={new Set(filmsList.map((film) => film.genre))}/>
+          <GenresList />
           <FilmsList films={filteredFilms}/>
           {filteredFilms.length < totalFilmsCount && <ShowMoreButton/>}
         </section>

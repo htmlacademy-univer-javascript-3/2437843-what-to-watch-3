@@ -15,7 +15,7 @@ const PROMO_FILM: Film = MOCK_FILMS[0];
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App mainPageParams={{promoFilm: PROMO_FILM, filmsList: MOCK_FILMS}} mockFilms={MOCK_FILMS}/>
+      <App mainPageParams={{promoFilm: PROMO_FILM}} mockFilms={MOCK_FILMS}/>
     </Provider>
   </React.StrictMode>
 );

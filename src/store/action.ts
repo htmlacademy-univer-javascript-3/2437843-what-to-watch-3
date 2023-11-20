@@ -12,5 +12,6 @@ export const setLimitFilms = createAction('SET_LIMIT_FILMS', (limit: number) => 
   payload: limit
 }));
 export const fetchFilms = createAction('FETCH_FILMS');
+export const fetchGenres = createAction('FETCH_GENRES');
 
 

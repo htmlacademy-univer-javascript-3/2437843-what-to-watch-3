@@ -1,42 +1,58 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {ALL_GENRES, INIT_FILMS_LIMIT} from '../consts';
-import {addLimitFilms, fetchFilms, fetchGenres, setGenreFilter, setLimitFilms} from './action';
-import {MOCK_FILMS} from '../mocks/films';
-import {Film} from '../types/film';
+import {ALL_GENRES} from '../consts';
+import {setGenreFilter} from './action';
+import {Film, FilmFull, FilmWithPreview} from '../types/film';
+import {fetchFilm, fetchFilms, fetchPromo, fetchReviews} from './api/api-actions';
+import {Review} from '../types/review';
 
 export type RootState = {
   genreFilter: string;
-  films: Array<Film>;
-  limitFilms: number;
-  totalFilmsCount: number;
+  genreFilteredFilms: Array<FilmWithPreview>;
+  films: Array<FilmWithPreview>;
   genres: Array<string>;
+  isLoading: boolean;
+  promoFilm: Film | null;
+  selectedFilm: FilmFull | null;
+  reviews: Array<Review>;
 }
 
 const initialState: RootState = {
   genreFilter: ALL_GENRES,
+  genreFilteredFilms: [],
   films: [],
-  limitFilms: INIT_FILMS_LIMIT,
-  totalFilmsCount: 0,
   genres: [ALL_GENRES],
+  isLoading: false,
+  promoFilm: null,
+  selectedFilm: null,
+  reviews: [],
 };
 
 export const updateStore = createReducer(initialState, (builder) => {
   builder
     .addCase(setGenreFilter, (state, {payload}) => {
       state.genreFilter = payload;
+      state.genreFilteredFilms = state.films.filter((film) => state.genreFilter === ALL_GENRES || film.genre === state.genreFilter);
     })
-    .addCase(addLimitFilms, (state, {payload}) => {
-      state.limitFilms += payload;
+    .addCase(fetchFilms.pending, (state) => {
+      state.isLoading = true;
     })
-    .addCase(setLimitFilms, (state, {payload}) => {
-      state.limitFilms = payload;
+    .addCase(fetchFilms.fulfilled, (state, action) => {
+      state.films = action.payload;
+      state.genreFilteredFilms = state.films.filter((film) => state.genreFilter === ALL_GENRES || film.genre === state.genreFilter);
+      state.genres = [ALL_GENRES, ...new Set(state.films.map((film) => film.genre))];
+      state.isLoading = false;
     })
-    .addCase(fetchGenres, (state) =>{
-      state.genres = [ALL_GENRES, ...new Set(MOCK_FILMS.map((film) => film.genre))];
+    .addCase(fetchFilm.pending, (state) => {
+      state.isLoading = true;
     })
-    .addCase(fetchFilms, (state) => {
-      const films = MOCK_FILMS.filter((film) => state.genreFilter === ALL_GENRES || film.genre === state.genreFilter);
-      state.totalFilmsCount = films.length;
-      state.films = films.slice(0, state.limitFilms);
+    .addCase(fetchFilm.fulfilled, (state, action) => {
+      state.selectedFilm = action.payload;
+      state.isLoading = false;
+    })
+    .addCase(fetchPromo.fulfilled, (state, action) => {
+      state.promoFilm = action.payload;
+    })
+    .addCase(fetchReviews.fulfilled, (state, action) => {
+      state.reviews = action.payload;
     });
 });

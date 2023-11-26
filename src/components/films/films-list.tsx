@@ -1,12 +1,12 @@
-import {Film} from '../../types/film';
+import {FilmWithPreview} from '../../types/film';
 import {FilmCard} from './film-card';
 import {useState} from 'react';
 
 type FilmsListProps = {
-  films: Array<Film>;
+  films: Array<FilmWithPreview>;
 }
 export function FilmsList({films}: FilmsListProps){
-  const [hoveredFilm, setHoveredFilm] = useState<Film | null>(null);
+  const [hoveredFilm, setHoveredFilm] = useState<FilmWithPreview | null>(null);
   return (
     <div className="catalog__films-list">
       {films.map((film) => (

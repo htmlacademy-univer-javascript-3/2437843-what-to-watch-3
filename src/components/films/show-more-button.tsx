@@ -1,13 +1,10 @@
-import {useDispatch} from 'react-redux';
-import {addLimitFilms} from '../../store/action';
-import {FILMS_PAGE_SIZE} from '../../consts';
-
-
-export function ShowMoreButton(){
-  const dispatch = useDispatch();
+type ShowMoreButtonProps = {
+  onClick: () => void;
+}
+export function ShowMoreButton({onClick}: ShowMoreButtonProps){
   return (
     <div className="catalog__more">
-      <button className="catalog__button" type="button" onClick={() => dispatch(addLimitFilms(FILMS_PAGE_SIZE))}>Show more</button>
+      <button className="catalog__button" type="button" onClick={() => onClick()}>Show more</button>
     </div>
   );
 }

@@ -1,12 +1,9 @@
-import {Film} from '../../types/film';
 import {FilmsList} from '../films/films-list';
 import {Link} from 'react-router-dom';
+import {useAppSelector} from '../../store/hooks/use-app-selector';
 
-type MyListPageProps = {
-  films: Array<Film>;
-}
-
-export function MyListPage({films}:MyListPageProps){
+export function MyListPage(){
+  const films = useAppSelector((state) => state.films);
   return (
     <div className="user-page">
       <header className="page-header user-page__head">

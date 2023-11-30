@@ -1,4 +1,4 @@
-import {Film} from '../../types/film';
+import {FilmFull} from '../../types/film';
 import {useState} from 'react';
 import {TabType} from '../../consts';
 import cn from 'classnames';
@@ -6,12 +6,14 @@ import {DetailsTab} from './details-tab';
 import {OverviewTab} from './overview-tab';
 import {NotFound} from '../pages/not-found';
 import {ReviewsTab} from './reviews-tab';
+import {Review} from '../../types/review';
 
 type TabsProps ={
-  film: Film;
+  film: FilmFull;
+  reviews: Array<Review>;
 }
 
-export function Tabs({film}: TabsProps) {
+export function Tabs({film, reviews}: TabsProps) {
   const [currentTab, setCurrentTab] = useState(TabType.Overview);
 
   const showTab = (type: TabType) => {
@@ -21,7 +23,7 @@ export function Tabs({film}: TabsProps) {
       case TabType.Overview:
         return <OverviewTab film={film}/>;
       case TabType.Reviews:
-        return <ReviewsTab reviews={[]}/>;
+        return <ReviewsTab reviews={reviews}/>;
       default:
         return <NotFound/>;
     }

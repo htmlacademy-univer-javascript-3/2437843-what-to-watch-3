@@ -1,21 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {App} from './app';
-import {Film} from './types/film';
-import {MOCK_FILMS} from './mocks/films';
 import {Provider} from 'react-redux';
-import {store} from './store/store';
+import {store} from './store';
+import {fetchFilms, fetchPromo} from './store/api/api-actions';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const PROMO_FILM: Film = MOCK_FILMS[0];
+
+store.dispatch(fetchFilms());
+store.dispatch(fetchPromo());
 
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App mainPageParams={{promoFilm: PROMO_FILM}} mockFilms={MOCK_FILMS}/>
+      <App />
     </Provider>
   </React.StrictMode>
 );

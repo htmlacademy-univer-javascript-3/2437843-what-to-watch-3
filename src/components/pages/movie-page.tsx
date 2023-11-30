@@ -1,19 +1,31 @@
-import React from 'react';
-import {Film} from '../../types/film';
+import React, {useEffect} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import {NotFound} from './not-found';
 import {FilmsList} from '../films/films-list';
 import {Footer} from '../parts/footer';
 import {Tabs} from '../tabs/tabs';
+import {useAppSelector} from '../../store/hooks/use-app-selector';
+import {fetchFilm, fetchReviews} from '../../store/api/api-actions';
+import {useAppDispatch} from '../../store/hooks/use-app-dispatch';
+import {Loader} from '../parts/loader';
 
-type MoviePagePops = {
-  films: Array<Film>;
-}
-
-export function MoviePage({films}: MoviePagePops){
+export function MoviePage(){
   const {id} = useParams();
-  const film = films.find((item) => String(item.id) === id);
-  if (!film || !id){
+  const films = useAppSelector((state) => state.films);
+  const isLoading = useAppSelector((state) => state.isLoading);
+  const film = useAppSelector((state) => state.selectedFilm);
+  const reviews = useAppSelector((state) => state.reviews);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchFilm(id));
+      dispatch(fetchReviews(id));
+    }
+  }, [dispatch, id]);
+  if (isLoading) {
+    return (<Loader/>);
+  }
+  if (!film || !id) {
     return (<NotFound/>);
   }
   return (
@@ -52,7 +64,7 @@ export function MoviePage({films}: MoviePagePops){
               <h2 className="film-card__title">{film.name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{film.genre}</span>
-                <span className="film-card__year">{film.year}</span>
+                <span className="film-card__year">{film.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -78,11 +90,11 @@ export function MoviePage({films}: MoviePagePops){
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={film.poster} alt={film.name} width="218"
+              <img src={film.posterImage} alt={film.name} width="218"
                 height="327"
               />
             </div>
-            <Tabs film={film}/>
+            <Tabs film={film} reviews={reviews}/>
           </div>
         </div>
       </section>

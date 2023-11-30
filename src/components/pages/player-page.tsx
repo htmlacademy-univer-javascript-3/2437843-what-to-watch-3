@@ -1,20 +1,31 @@
 import {useNavigate, useParams} from 'react-router-dom';
-import {Film} from '../../types/film';
 import {NotFound} from './not-found';
+import {useAppSelector} from '../../store/hooks/use-app-selector';
+import {useAppDispatch} from '../../store/hooks/use-app-dispatch';
+import {useEffect} from 'react';
+import {fetchFilm} from '../../store/api/api-actions';
+import {Loader} from '../parts/loader';
 
-type PlayerPageProps = {
-  films: Array<Film>;
-}
-export function PlayerPage({films}: PlayerPageProps){
+export function PlayerPage(){
   const {id} = useParams();
   const navigate = useNavigate();
-  const film = films.find((item) => String(item.id) === id);
+  const isLoading = useAppSelector((state) => state.isLoading);
+  const film = useAppSelector((state) => state.selectedFilm);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchFilm(id));
+    }
+  }, [dispatch, id]);
+  if (isLoading) {
+    return (<Loader/>);
+  }
   if (!film || !id){
     return (<NotFound/>);
   }
   return (
     <div className="player">
-      <video src={film.videoUrl} className="player__video" poster="img/player-poster.jpg"></video>
+      <video src={film.videoLink} className="player__video" poster={film.previewImage}></video>
 
       <button type="button" className="player__exit" onClick={() => navigate(-1)}>Exit</button>
 

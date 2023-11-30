@@ -1,32 +1,19 @@
-import React, {useEffect} from 'react';
-import {Film} from '../../types/film';
-import {FilmsList} from '../films/films-list';
+import React from 'react';
 import {Link} from 'react-router-dom';
 import {Footer} from '../parts/footer';
 import {GenresList} from '../films/genres-list';
-import {useDispatch} from 'react-redux';
-import {fetchFilms, setGenreFilter, setLimitFilms} from '../../store/action';
-import {ALL_GENRES, INIT_FILMS_LIMIT} from '../../consts';
 import {useAppSelector} from '../../store/hooks/use-app-selector';
-import {ShowMoreButton} from '../films/show-more-button';
+import {Loader} from '../parts/loader';
+import {FilmsListWithShowMore} from '../films/films-list-with-show-more';
 
-export type MainPageProps = {
-    promoFilm: Film;
-}
+export function MainPage(){
+  const filteredFilms = useAppSelector((state) => state.genreFilteredFilms);
+  const promoFilm = useAppSelector((state) => state.promoFilm);
+  const isLoading = useAppSelector((state) => state.isLoading);
 
-export function MainPage({promoFilm}: MainPageProps){
-  const filteredFilms = useAppSelector((state) => state.films);
-  const limitFilms = useAppSelector((state) => state.limitFilms);
-  const selectedGenre = useAppSelector((state) => state.genreFilter);
-  const totalFilmsCount = useAppSelector((state) => state.totalFilmsCount);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(setGenreFilter(ALL_GENRES));
-    dispatch(setLimitFilms(INIT_FILMS_LIMIT));
-  }, [dispatch]);
-  useEffect(() => {
-    dispatch(fetchFilms());
-  }, [dispatch, selectedGenre, limitFilms]);
+  if (promoFilm === null || isLoading) {
+    return (<Loader/>);
+  }
   return (
     <React.Fragment>
       <section className="film-card">
@@ -60,7 +47,7 @@ export function MainPage({promoFilm}: MainPageProps){
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src={promoFilm.poster} alt={promoFilm.name} width="218"
+              <img src={promoFilm.posterImage} alt={promoFilm.name} width="218"
                 height="327"
               />
             </div>
@@ -69,7 +56,7 @@ export function MainPage({promoFilm}: MainPageProps){
               <h2 className="film-card__title">{promoFilm.name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{promoFilm.genre}</span>
-                <span className="film-card__year">{promoFilm.year}</span>
+                <span className="film-card__year">{promoFilm.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -96,8 +83,7 @@ export function MainPage({promoFilm}: MainPageProps){
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
           <GenresList />
-          <FilmsList films={filteredFilms}/>
-          {filteredFilms.length < totalFilmsCount && <ShowMoreButton/>}
+          <FilmsListWithShowMore films={filteredFilms}/>
         </section>
         <Footer/>
       </div>

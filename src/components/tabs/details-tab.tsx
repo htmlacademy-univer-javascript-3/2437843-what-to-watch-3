@@ -1,7 +1,7 @@
-import {Film} from '../../types/film';
+import {FilmFull} from '../../types/film';
 
 type DetailsTabProps = {
-  film: Film;
+  film: FilmFull;
 }
 
 export function DetailsTab({film}: DetailsTabProps){
@@ -31,7 +31,7 @@ export function DetailsTab({film}: DetailsTabProps){
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Released</strong>
-          <span className="film-card__details-value">{film.year}</span>
+          <span className="film-card__details-value">{film.released}</span>
         </p>
       </div>
     </div>

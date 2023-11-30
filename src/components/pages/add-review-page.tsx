@@ -1,17 +1,26 @@
 import {Link, useParams} from 'react-router-dom';
 import {NotFound} from './not-found';
-import {Film} from '../../types/film';
-import {ChangeEvent, useState} from 'react';
+import {ChangeEvent, useEffect, useState} from 'react';
+import {useAppSelector} from '../../store/hooks/use-app-selector';
+import {useAppDispatch} from '../../store/hooks/use-app-dispatch';
+import {fetchFilm} from '../../store/api/api-actions';
+import {Loader} from '../parts/loader';
 
-type AddReviewPageProps = {
-  films: Array<Film>;
-}
-
-export function AddReviewPage({films}: AddReviewPageProps){
+export function AddReviewPage(){
   const {id} = useParams();
   const [selectedRating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
-  const film = films.find((item) => String(item.id) === id);
+  const isLoading = useAppSelector((state) => state.isLoading);
+  const film = useAppSelector((state) => state.selectedFilm);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchFilm(id));
+    }
+  }, [dispatch, id]);
+  if (isLoading) {
+    return (<Loader/>);
+  }
   if (!film || !id){
     return (<NotFound/>);
   }
@@ -58,7 +67,7 @@ export function AddReviewPage({films}: AddReviewPageProps){
         </header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={film.poster} alt={film.name} width="218"
+          <img src={film.posterImage} alt={film.name} width="218"
             height="327"
           />
         </div>

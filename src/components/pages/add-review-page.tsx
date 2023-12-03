@@ -1,14 +1,15 @@
-import {Link, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {NotFound} from './not-found';
-import {ChangeEvent, useEffect, useState} from 'react';
+import {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import {useAppSelector} from '../../store/hooks/use-app-selector';
 import {useAppDispatch} from '../../store/hooks/use-app-dispatch';
-import {fetchFilm} from '../../store/api/api-actions';
+import {addReview, fetchFilm} from '../../store/api/api-actions';
 import {Loader} from '../parts/loader';
 import {Header} from '../parts/header';
 
 export function AddReviewPage(){
   const {id} = useParams();
+  const navigate = useNavigate();
   const [selectedRating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
   const isLoading = useAppSelector((state) => state.isLoading);
@@ -24,6 +25,15 @@ export function AddReviewPage(){
   }
   if (!film || !id){
     return (<NotFound/>);
+  }
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!id || !selectedRating || !reviewText){
+      return;
+    }
+    dispatch(addReview({rating: selectedRating, comment: reviewText, filmId: id})).then(() => {
+      navigate(`/films/${id}`);
+    });
   }
   const handleRatingChange = (event: ChangeEvent<HTMLInputElement>) => setRating(parseInt(event.target.value, 10));
   return (
@@ -54,7 +64,7 @@ export function AddReviewPage(){
       </div>
 
       <div className="add-review">
-        <form action="#" className="add-review__form">
+        <form action="#" className="add-review__form" onSubmit={onSubmit}>
           <div className="rating">
             <div className="rating__stars">
               <input className="rating__input" id="star-10" type="radio" name="rating" checked={selectedRating === 10} onChange={handleRatingChange} value={10}/>

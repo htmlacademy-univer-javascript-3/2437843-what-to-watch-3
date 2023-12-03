@@ -7,6 +7,8 @@ import {OverviewTab} from './overview-tab';
 import {NotFound} from '../pages/not-found';
 import {ReviewsTab} from './reviews-tab';
 import {Review} from '../../types/review';
+import {useAppSelector} from '../../store/hooks/use-app-selector';
+import {AuthStatus} from '../../types/auth-status';
 
 type TabsProps ={
   film: FilmFull;
@@ -15,6 +17,7 @@ type TabsProps ={
 
 export function Tabs({film, reviews}: TabsProps) {
   const [currentTab, setCurrentTab] = useState(TabType.Overview);
+  const authStatus = useAppSelector((state) => state.authorizationStatus);
 
   const showTab = (type: TabType) => {
     switch (type) {
@@ -39,9 +42,10 @@ export function Tabs({film, reviews}: TabsProps) {
           <li className={cn('film-nav__item', {'film-nav__item--active': currentTab === TabType.Details})}>
             <button onClick={() => setCurrentTab(TabType.Details)} className="film-nav__link">Details</button>
           </li>
-          <li className={cn('film-nav__item', {'film-nav__item--active': currentTab === TabType.Reviews})}>
-            <button onClick={() => setCurrentTab(TabType.Reviews)} className="film-nav__link">Reviews</button>
-          </li>
+          {authStatus === AuthStatus.Authorized &&
+            <li className={cn('film-nav__item', {'film-nav__item--active': currentTab === TabType.Reviews})}>
+              <button onClick={() => setCurrentTab(TabType.Reviews)} className="film-nav__link">Reviews</button>
+            </li>}
         </ul>
       </nav>
       {showTab(currentTab)}

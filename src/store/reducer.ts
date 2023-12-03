@@ -2,7 +2,17 @@ import {createReducer} from '@reduxjs/toolkit';
 import {ALL_GENRES} from '../consts';
 import {setAuthError, setAuthStatus, setGenreFilter} from './action';
 import {Film, FilmFull, FilmWithPreview} from '../types/film';
-import {checkAuth, fetchFilm, fetchFilms, fetchPromo, fetchReviews, login, logout} from './api/api-actions';
+import {
+  addReview,
+  checkAuth,
+  fetchFilm,
+  fetchFilms,
+  fetchPromo,
+  fetchReviews,
+  fetchSimilar,
+  login,
+  logout
+} from './api/api-actions';
 import {Review} from '../types/review';
 import {AuthStatus} from '../types/auth-status';
 import {User} from '../types/user';
@@ -12,6 +22,7 @@ export type RootState = {
   genreFilter: string;
   genreFilteredFilms: Array<FilmWithPreview>;
   films: Array<FilmWithPreview>;
+  similarFilms: Array<FilmWithPreview>;
   genres: Array<string>;
   isLoading: boolean;
   promoFilm: Film | null;
@@ -26,6 +37,7 @@ const initialState: RootState = {
   genreFilter: ALL_GENRES,
   genreFilteredFilms: [],
   films: [],
+  similarFilms: [],
   genres: [ALL_GENRES],
   isLoading: false,
   promoFilm: null,
@@ -94,5 +106,11 @@ export const updateStore = createReducer(initialState, (builder) => {
     })
     .addCase(setAuthError, (state, {payload}) => {
       state.authError = payload;
+    })
+    .addCase(fetchSimilar.fulfilled, (state, action) => {
+      state.similarFilms = action.payload;
+    })
+    .addCase(addReview.fulfilled, (state, {payload}) => {
+      state.reviews = state.reviews.concat(payload);
     });
 });

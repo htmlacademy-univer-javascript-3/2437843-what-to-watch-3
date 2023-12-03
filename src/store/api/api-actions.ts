@@ -7,6 +7,7 @@ import {Review} from '../../types/review';
 import {User} from '../../types/user';
 import {AuthorizationData} from '../../types/auth-data';
 import {ValidationError} from './validation-error';
+import {CommentData} from '../../types/comment-data';
 
 export const fetchFilms = createAsyncThunk<FilmWithPreview[], undefined, {
   dispatch: AppDispatch;
@@ -98,5 +99,29 @@ export const logout = createAsyncThunk<void, undefined, {
   '/logout',
   async (_arg, {extra: api}) => {
     await api.delete('/logout');
+  },
+);
+
+export const fetchSimilar = createAsyncThunk<FilmWithPreview[], string, {
+  dispatch: AppDispatch;
+  state: RootState;
+  extra: AxiosInstance;
+}>(
+  '/films/id/similar',
+  async (filmId: string, {extra: api}) => {
+    const {data} = await api.get<FilmWithPreview[]>(`/films/${filmId}/similar`);
+    return data;
+  },
+);
+
+export const addReview = createAsyncThunk<Review, CommentData, {
+  dispatch: AppDispatch;
+  state: RootState;
+  extra: AxiosInstance;
+}>(
+  '/comments/id',
+  async ({comment, rating, filmId}, {extra: api}) => {
+    const {data} = await api.post<Review>(`/comments/${filmId}`, {comment, rating});
+    return data;
   },
 );

@@ -23,7 +23,7 @@ export function DetailsTab({film}: DetailsTabProps){
       <div className="film-card__text-col">
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Run Time</strong>
-          <span className="film-card__details-value">{film.runTime}</span>
+          <span className="film-card__details-value">{film.runTime}m</span>
         </p>
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Genre</strong>

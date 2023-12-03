@@ -1,11 +1,12 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch} from '../index';
 import {FilmFull, Film, FilmWithPreview} from '../../types/film';
-import {AxiosInstance} from 'axios';
+import {AxiosError, AxiosInstance} from 'axios';
 import {RootState} from '../reducer';
 import {Review} from '../../types/review';
 import {User} from '../../types/user';
 import {AuthorizationData} from '../../types/auth-data';
+import {ValidationError} from './validation-error';
 
 export const fetchFilms = createAsyncThunk<FilmWithPreview[], undefined, {
   dispatch: AppDispatch;
@@ -71,11 +72,21 @@ export const login = createAsyncThunk<User, AuthorizationData, {
   dispatch: AppDispatch;
   state: RootState;
   extra: AxiosInstance;
+  rejectValue: ValidationError;
 }>(
   '/login',
-  async ({email, password}, {extra: api}) => {
-    const {data} = await api.post<User>('/login', {email, password});
-    return data;
+  async ({email, password}, {extra: api, rejectWithValue}) => {
+    try {
+      const {data} = await api.post<User>('/login', {email, password});
+      return data;
+    } catch (err) {
+      const error: AxiosError<ValidationError> = err as AxiosError<ValidationError>; // cast the error for access
+      if (!error.response) {
+        throw err;
+      }
+      // We got validation errors, let's return those so we can reference in our component and set form errors
+      return rejectWithValue(error.response.data);
+    }
   },
 );
 

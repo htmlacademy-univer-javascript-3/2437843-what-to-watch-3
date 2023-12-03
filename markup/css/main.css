@@ -1283,6 +1283,7 @@ main {
   line-height: 26px;
   margin-bottom: 42px; }
   .sign-in__message p {
+    white-space: pre-line;
     margin: 0; }
 
 .sign-in__error-message {

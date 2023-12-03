@@ -1,4 +1,4 @@
-import {createReducer, SerializedError} from '@reduxjs/toolkit';
+import {createReducer} from '@reduxjs/toolkit';
 import {ALL_GENRES} from '../consts';
 import {setAuthError, setAuthStatus, setGenreFilter} from './action';
 import {Film, FilmFull, FilmWithPreview} from '../types/film';
@@ -19,7 +19,7 @@ export type RootState = {
   reviews: Array<Review>;
   authorizationStatus: AuthStatus;
   userInfo: User | null;
-  authError: SerializedError | null;
+  authError: string | null | undefined;
 }
 
 const initialState: RootState = {
@@ -85,7 +85,12 @@ export const updateStore = createReducer(initialState, (builder) => {
       setToken(action.payload.token);
     })
     .addCase(login.rejected, (state, action)=> {
-      state.authError = action.error;
+      if (action.payload) {
+        // Being that we passed in ValidationErrors to rejectType in `createAsyncThunk`, the payload will be available here.
+        state.authError = action.payload.details.map((item) => item.messages).join('\n');
+      } else {
+        state.authError = action.error.message;
+      }
     })
     .addCase(setAuthError, (state, {payload}) => {
       state.authError = payload;

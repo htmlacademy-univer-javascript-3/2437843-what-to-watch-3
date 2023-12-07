@@ -1,9 +1,12 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {ALL_GENRES} from '../consts';
-import {setGenreFilter} from './action';
+import {setAuthError, setAuthStatus, setGenreFilter} from './action';
 import {Film, FilmFull, FilmWithPreview} from '../types/film';
-import {fetchFilm, fetchFilms, fetchPromo, fetchReviews} from './api/api-actions';
+import {checkAuth, fetchFilm, fetchFilms, fetchPromo, fetchReviews, login, logout} from './api/api-actions';
 import {Review} from '../types/review';
+import {AuthStatus} from '../types/auth-status';
+import {User} from '../types/user';
+import {removeToken, setToken} from '../utils/token-storage';
 
 export type RootState = {
   genreFilter: string;
@@ -14,6 +17,9 @@ export type RootState = {
   promoFilm: Film | null;
   selectedFilm: FilmFull | null;
   reviews: Array<Review>;
+  authorizationStatus: AuthStatus;
+  userInfo: User | null;
+  authError: string | null | undefined;
 }
 
 const initialState: RootState = {
@@ -25,6 +31,9 @@ const initialState: RootState = {
   promoFilm: null,
   selectedFilm: null,
   reviews: [],
+  authorizationStatus: AuthStatus.Unknown,
+  userInfo: null,
+  authError: null,
 };
 
 export const updateStore = createReducer(initialState, (builder) => {
@@ -54,5 +63,36 @@ export const updateStore = createReducer(initialState, (builder) => {
     })
     .addCase(fetchReviews.fulfilled, (state, action) => {
       state.reviews = action.payload;
+    })
+    .addCase(setAuthStatus, (state, {payload}) => {
+      state.authorizationStatus = payload;
+    })
+    .addCase(checkAuth.rejected, (state) => {
+      state.authorizationStatus = AuthStatus.NoAuthorized;
+    })
+    .addCase(checkAuth.fulfilled, (state, action)=> {
+      state.authorizationStatus = AuthStatus.Authorized;
+      state.userInfo = action.payload;
+      setToken(action.payload.token);
+    })
+    .addCase(logout.fulfilled, (state) => {
+      state.authorizationStatus = AuthStatus.NoAuthorized;
+      removeToken();
+    })
+    .addCase(login.fulfilled, (state, action) => {
+      state.authorizationStatus = AuthStatus.Authorized;
+      state.userInfo = action.payload;
+      setToken(action.payload.token);
+    })
+    .addCase(login.rejected, (state, action)=> {
+      if (action.payload) {
+        // Being that we passed in ValidationErrors to rejectType in `createAsyncThunk`, the payload will be available here.
+        state.authError = action.payload.details.map((item) => item.messages).join('\n');
+      } else {
+        state.authError = action.error.message;
+      }
+    })
+    .addCase(setAuthError, (state, {payload}) => {
+      state.authError = payload;
     });
 });

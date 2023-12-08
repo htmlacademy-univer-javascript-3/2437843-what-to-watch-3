@@ -5,14 +5,14 @@ import {FilmsList} from '../films/films-list';
 import {Footer} from '../parts/footer';
 import {Tabs} from '../tabs/tabs';
 import {useAppSelector} from '../../store/hooks/use-app-selector';
-import {fetchFilm, fetchReviews} from '../../store/api/api-actions';
+import {fetchFilm, fetchReviews, fetchSimilar} from '../../store/api/api-actions';
 import {useAppDispatch} from '../../store/hooks/use-app-dispatch';
 import {Loader} from '../parts/loader';
 import {Header} from '../parts/header';
 
 export function MoviePage(){
   const {id} = useParams();
-  const films = useAppSelector((state) => state.films);
+  const films = useAppSelector((state) => state.similarFilms);
   const isLoading = useAppSelector((state) => state.isLoading);
   const film = useAppSelector((state) => state.selectedFilm);
   const reviews = useAppSelector((state) => state.reviews);
@@ -21,6 +21,7 @@ export function MoviePage(){
     if (id) {
       dispatch(fetchFilm(id));
       dispatch(fetchReviews(id));
+      dispatch(fetchSimilar(id));
     }
   }, [dispatch, id]);
   if (isLoading) {
@@ -67,7 +68,7 @@ export function MoviePage(){
 
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
-            <div className="film-card__poster film-card__poster--big">
+            <div className="film-card__poter film-card__poster--big">
               <img src={film.posterImage} alt={film.name} width="218"
                 height="327"
               />
@@ -80,7 +81,7 @@ export function MoviePage(){
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <FilmsList films={films.filter((item) => item.genre === film.genre).slice(0, 4)}/>
+          <FilmsList films={films.slice(0, 4)}/>
         </section>
         <Footer/>
       </div>

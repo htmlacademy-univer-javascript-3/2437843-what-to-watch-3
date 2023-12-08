@@ -22,7 +22,12 @@ export function App() {
         }
         />
         <Route path="/films/:id" element={<MoviePage/>}/>
-        <Route path="/films/:id/review" element={<AddReviewPage/>}/>
+        <Route path="/films/:id/review" element={
+          <PrivateRoute>
+            <AddReviewPage/>
+          </PrivateRoute>
+        }
+        />
         <Route path="/player/:id" element={<PlayerPage/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Routes>

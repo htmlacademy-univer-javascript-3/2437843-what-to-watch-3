@@ -7,6 +7,7 @@ import {addReview, fetchFilm} from '../../store/api/api-actions';
 import {Loader} from '../parts/loader';
 import {Header} from '../parts/header';
 import {MAX_LEN_REVIEW, MIN_LEN_REVIEW} from '../../consts';
+import {ReducerName} from '../../store/reducers/reducer-types';
 
 export function AddReviewPage(){
   const {id} = useParams();
@@ -14,8 +15,8 @@ export function AddReviewPage(){
   const [selectedRating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
   const [errorText, setError] = useState('');
-  const isLoading = useAppSelector((state) => state.isLoading);
-  const film = useAppSelector((state) => state.selectedFilm);
+  const isLoading = useAppSelector((state) => state[ReducerName.Film].isLoading);
+  const film = useAppSelector((state) => state[ReducerName.Film].selectedFilm);
   const [isDisabled, setIsDisabled] = useState(false);
   const dispatch = useAppDispatch();
   useEffect(() => {

@@ -5,12 +5,13 @@ import {useAppDispatch} from '../../store/hooks/use-app-dispatch';
 import {useEffect} from 'react';
 import {fetchFilm} from '../../store/api/api-actions';
 import {Loader} from '../parts/loader';
+import {ReducerName} from '../../store/reducers/reducer-types';
 
 export function PlayerPage(){
   const {id} = useParams();
   const navigate = useNavigate();
-  const isLoading = useAppSelector((state) => state.isLoading);
-  const film = useAppSelector((state) => state.selectedFilm);
+  const isLoading = useAppSelector((state) => state[ReducerName.Film].isLoading);
+  const film = useAppSelector((state) => state[ReducerName.Film].selectedFilm);
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (id) {

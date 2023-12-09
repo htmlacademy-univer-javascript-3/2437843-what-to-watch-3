@@ -1,10 +1,10 @@
 import {configureStore} from '@reduxjs/toolkit';
-import {updateStore} from './reducer';
+import {reducer} from './reducers/reducer';
 import {createAPI} from './api/api';
 
 export const api = createAPI();
 export const store = configureStore({
-  reducer: updateStore,
+  reducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {
@@ -13,3 +13,4 @@ export const store = configureStore({
     }),
 });
 export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>;

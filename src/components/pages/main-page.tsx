@@ -6,11 +6,12 @@ import {useAppSelector} from '../../store/hooks/use-app-selector';
 import {Loader} from '../parts/loader';
 import {FilmsListWithShowMore} from '../films/films-list-with-show-more';
 import {Header} from '../parts/header';
+import {ReducerName} from '../../store/reducers/reducer-types';
 
 export function MainPage(){
-  const filteredFilms = useAppSelector((state) => state.genreFilteredFilms);
-  const promoFilm = useAppSelector((state) => state.promoFilm);
-  const isLoading = useAppSelector((state) => state.isLoading);
+  const filteredFilms = useAppSelector((state) => state[ReducerName.Film].genreFilteredFilms);
+  const promoFilm = useAppSelector((state) => state[ReducerName.Film].promoFilm);
+  const isLoading = useAppSelector((state) => state[ReducerName.Film].isLoading);
 
   if (promoFilm === null || isLoading) {
     return (<Loader/>);

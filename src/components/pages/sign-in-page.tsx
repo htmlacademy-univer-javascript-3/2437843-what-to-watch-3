@@ -11,6 +11,7 @@ import {setAuthError} from '../../store/action';
 export function SignInPage(){
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isDisabled, setIsDisabled] = useState(false);
   const dispatch = useAppDispatch();
   const authStatus = useAppSelector((state) => state.authorizationStatus);
   const error = useAppSelector((state) => state.authError);
@@ -22,7 +23,12 @@ export function SignInPage(){
   }
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    dispatch(login({email, password}));
+    setIsDisabled(true);
+    dispatch(login({email, password})).then(() => {
+      setIsDisabled(false);
+    }).catch(() => {
+      setIsDisabled(false);
+    });
   }
 
   return (
@@ -50,7 +56,7 @@ export function SignInPage(){
             </div>
           </div>
           <div className="sign-in__submit">
-            <button className="sign-in__btn" type="submit">Sign in</button>
+            <button className="sign-in__btn" type="submit" disabled={isDisabled}>Sign in</button>
           </div>
         </form>
       </div>

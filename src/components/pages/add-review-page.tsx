@@ -1,19 +1,22 @@
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {NotFound} from './not-found';
-import {ChangeEvent, FormEvent, useEffect, useState} from 'react';
+import {ChangeEvent, FormEvent, Fragment, useEffect, useState} from 'react';
 import {useAppSelector} from '../../store/hooks/use-app-selector';
 import {useAppDispatch} from '../../store/hooks/use-app-dispatch';
 import {addReview, fetchFilm} from '../../store/api/api-actions';
 import {Loader} from '../parts/loader';
 import {Header} from '../parts/header';
+import {MAX_LEN_REVIEW, MIN_LEN_REVIEW} from '../../consts';
 
 export function AddReviewPage(){
   const {id} = useParams();
   const navigate = useNavigate();
   const [selectedRating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
+  const [errorText, setError] = useState('');
   const isLoading = useAppSelector((state) => state.isLoading);
   const film = useAppSelector((state) => state.selectedFilm);
+  const [isDisabled, setIsDisabled] = useState(false);
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (id) {
@@ -26,13 +29,24 @@ export function AddReviewPage(){
   if (!film || !id){
     return (<NotFound/>);
   }
+  const isAbleToSubmit = selectedRating > 0 && reviewText.length >= MIN_LEN_REVIEW && reviewText.length <= MAX_LEN_REVIEW && !isDisabled;
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!id || !selectedRating || !reviewText){
+    if (!id || !isAbleToSubmit){
       return;
     }
-    dispatch(addReview({rating: selectedRating, comment: reviewText, filmId: id})).then(() => {
+    setIsDisabled(true);
+    dispatch(addReview({rating: selectedRating, comment: reviewText, filmId: id})).then((data) => {
+      if (!data.payload){
+        throw new Error('Error while adding review');
+      }
+      setIsDisabled(false);
       navigate(`/films/${id}`);
+    }).catch((err) => {
+      const error = err as Error;
+      if (error.message) {
+        setError(error.message);
+      }
     });
   }
   const handleRatingChange = (event: ChangeEvent<HTMLInputElement>) => setRating(parseInt(event.target.value, 10));
@@ -67,35 +81,19 @@ export function AddReviewPage(){
         <form action="#" className="add-review__form" onSubmit={onSubmit}>
           <div className="rating">
             <div className="rating__stars">
-              <input className="rating__input" id="star-10" type="radio" name="rating" checked={selectedRating === 10} onChange={handleRatingChange} value={10}/>
-              <label className="rating__label" htmlFor="star-10">Rating 10</label>
-
-              <input className="rating__input" id="star-9" type="radio" name="rating" checked={selectedRating === 9} onChange={handleRatingChange} value={9}/>
-              <label className="rating__label" htmlFor="star-9">Rating 9</label>
-
-              <input className="rating__input" id="star-8" type="radio" name="rating" checked={selectedRating === 8} onChange={handleRatingChange} value={8}/>
-              <label className="rating__label" htmlFor="star-8">Rating 8</label>
-
-              <input className="rating__input" id="star-7" type="radio" name="rating" checked={selectedRating === 7} onChange={handleRatingChange} value={7}/>
-              <label className="rating__label" htmlFor="star-7">Rating 7</label>
-
-              <input className="rating__input" id="star-6" type="radio" name="rating" checked={selectedRating === 6} onChange={handleRatingChange} value={6}/>
-              <label className="rating__label" htmlFor="star-6">Rating 6</label>
-
-              <input className="rating__input" id="star-5" type="radio" name="rating" checked={selectedRating === 5} onChange={handleRatingChange} value={5}/>
-              <label className="rating__label" htmlFor="star-5">Rating 5</label>
-
-              <input className="rating__input" id="star-4" type="radio" name="rating" checked={selectedRating === 4} onChange={handleRatingChange} value={4}/>
-              <label className="rating__label" htmlFor="star-4">Rating 4</label>
-
-              <input className="rating__input" id="star-3" type="radio" name="rating" checked={selectedRating === 3} onChange={handleRatingChange} value={3}/>
-              <label className="rating__label" htmlFor="star-3">Rating 3</label>
-
-              <input className="rating__input" id="star-2" type="radio" name="rating" checked={selectedRating === 2} onChange={handleRatingChange} value={2}/>
-              <label className="rating__label" htmlFor="star-2">Rating 2</label>
-
-              <input className="rating__input" id="star-1" type="radio" name="rating" checked={selectedRating === 1} onChange={handleRatingChange} value={1}/>
-              <label className="rating__label" htmlFor="star-1">Rating 1</label>
+              {[10, 9, 8, 7, 6, 5, 4, 3, 2, 1].map((num) => (
+                <Fragment key={num}>
+                  <input className="rating__input"
+                    id={`star-${num}`}
+                    type="radio"
+                    name="rating"
+                    checked={selectedRating === num}
+                    onChange={handleRatingChange}
+                    value={num}
+                  />
+                  <label className="rating__label" htmlFor={`star-${num}`}>Rating {num}</label>
+                </Fragment>
+              ))}
             </div>
           </div>
 
@@ -107,10 +105,12 @@ export function AddReviewPage(){
             >
             </textarea>
             <div className="add-review__submit">
-              <button className="add-review__btn" type="submit">Post</button>
+              <button className="add-review__btn" disabled={!isAbleToSubmit} type="submit">Post</button>
             </div>
-
           </div>
+          <p>
+            {errorText}
+          </p>
         </form>
       </div>
 

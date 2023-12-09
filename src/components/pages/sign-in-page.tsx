@@ -16,13 +16,24 @@ export function SignInPage(){
   const authStatus = useAppSelector((state) => state.authorizationStatus);
   const error = useAppSelector((state) => state.authError);
   useEffect(() => {
-    setAuthError(null);
-  }, []);
+    dispatch(setAuthError(null));
+  }, [dispatch]);
   if (authStatus === AuthStatus.Authorized) {
     return <Navigate to={'/'}/>;
   }
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!email || !password || isDisabled){
+      return;
+    }
+    if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email)){
+      dispatch(setAuthError('Email is not in valid format'));
+      return;
+    }
+    if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{2,}$/g.test(password)){
+      dispatch(setAuthError('Password must contain at least one digit and one letter'));
+      return;
+    }
     setIsDisabled(true);
     dispatch(login({email, password})).then(() => {
       setIsDisabled(false);

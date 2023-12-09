@@ -4,13 +4,14 @@ import {useAppSelector} from '../../store/hooks/use-app-selector';
 import {AuthStatus} from '../../types/auth-status';
 import {useAppDispatch} from '../../store/hooks/use-app-dispatch';
 import {logout} from '../../store/api/api-actions';
+import {ReducerName} from '../../store/reducers/reducer-types';
 
 
 type HeaderProps = {
   children?: JSX.Element;
 }
 export function Header({children}:HeaderProps){
-  const authStatus = useAppSelector((state) => state.authorizationStatus);
+  const authStatus = useAppSelector((state) => state[ReducerName.Auth].authorizationStatus);
   const dispatch = useAppDispatch();
   const onClickLogout = () => {
     dispatch(logout());

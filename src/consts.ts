@@ -11,3 +11,6 @@ export const ALL_GENRES = 'All genres';
 export const INIT_FILMS_LIMIT = 8;
 
 export const FILMS_PAGE_SIZE = 8;
+
+export const MAX_LEN_REVIEW = 400;
+export const MIN_LEN_REVIEW = 50;

@@ -1,12 +1,11 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {AppDispatch} from '../index';
+import {AppDispatch, RootState} from '../index';
 import {FilmFull, Film, FilmWithPreview} from '../../types/film';
 import {AxiosError, AxiosInstance} from 'axios';
-import {RootState} from '../reducer';
 import {Review} from '../../types/review';
 import {User} from '../../types/user';
 import {AuthorizationData} from '../../types/auth-data';
-import {ValidationError} from './validation-error';
+import {ValidationError} from '../../types/validation-error';
 import {CommentData} from '../../types/comment-data';
 
 export const fetchFilms = createAsyncThunk<FilmWithPreview[], undefined, {

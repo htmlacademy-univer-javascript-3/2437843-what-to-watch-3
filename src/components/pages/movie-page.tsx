@@ -9,13 +9,16 @@ import {fetchFilm, fetchReviews, fetchSimilar} from '../../store/api/api-actions
 import {useAppDispatch} from '../../store/hooks/use-app-dispatch';
 import {Loader} from '../parts/loader';
 import {Header} from '../parts/header';
+import {ReducerName} from '../../store/reducers/reducer-types';
+import {AuthStatus} from '../../types/auth-status';
 
 export function MoviePage(){
   const {id} = useParams();
-  const films = useAppSelector((state) => state.similarFilms);
-  const isLoading = useAppSelector((state) => state.isLoading);
-  const film = useAppSelector((state) => state.selectedFilm);
-  const reviews = useAppSelector((state) => state.reviews);
+  const films = useAppSelector((state) => state[ReducerName.Film].similarFilms);
+  const isLoading = useAppSelector((state) => state[ReducerName.Film].isLoading);
+  const film = useAppSelector((state) => state[ReducerName.Film].selectedFilm);
+  const reviews = useAppSelector((state) => state[ReducerName.Film].reviews);
+  const authStatus = useAppSelector((state) => state[ReducerName.Auth].authorizationStatus);
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (id) {
@@ -53,14 +56,15 @@ export function MoviePage(){
                   </svg>
                   <span>Play</span>
                 </Link>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
-                <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>
+                {authStatus === AuthStatus.Authorized &&
+                  <button className="btn btn--list film-card__button" type="button">
+                    <svg viewBox="0 0 19 20" width="19" height="20">
+                      <use xlinkHref="#add"></use>
+                    </svg>
+                    <span>My list</span>
+                    <span className="film-card__count">9</span>
+                  </button>}
+                {authStatus === AuthStatus.Authorized && <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>}
               </div>
             </div>
           </div>

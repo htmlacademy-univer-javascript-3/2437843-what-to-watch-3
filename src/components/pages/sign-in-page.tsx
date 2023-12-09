@@ -7,22 +7,40 @@ import {AuthStatus} from '../../types/auth-status';
 import {Navigate} from 'react-router-dom';
 import {login} from '../../store/api/api-actions';
 import {setAuthError} from '../../store/action';
+import {ReducerName} from '../../store/reducers/reducer-types';
 
 export function SignInPage(){
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isDisabled, setIsDisabled] = useState(false);
   const dispatch = useAppDispatch();
-  const authStatus = useAppSelector((state) => state.authorizationStatus);
-  const error = useAppSelector((state) => state.authError);
+  const authStatus = useAppSelector((state) => state[ReducerName.Auth].authorizationStatus);
+  const error = useAppSelector((state) => state[ReducerName.Auth].authError);
   useEffect(() => {
-    setAuthError(null);
-  }, []);
+    dispatch(setAuthError(null));
+  }, [dispatch]);
   if (authStatus === AuthStatus.Authorized) {
     return <Navigate to={'/'}/>;
   }
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    dispatch(login({email, password}));
+    if (!email || !password || isDisabled){
+      return;
+    }
+    if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email)){
+      dispatch(setAuthError('Email is not in valid format'));
+      return;
+    }
+    if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{2,}$/g.test(password)){
+      dispatch(setAuthError('Password must contain at least one digit and one letter'));
+      return;
+    }
+    setIsDisabled(true);
+    dispatch(login({email, password})).then(() => {
+      setIsDisabled(false);
+    }).catch(() => {
+      setIsDisabled(false);
+    });
   }
 
   return (
@@ -50,7 +68,7 @@ export function SignInPage(){
             </div>
           </div>
           <div className="sign-in__submit">
-            <button className="sign-in__btn" type="submit">Sign in</button>
+            <button className="sign-in__btn" type="submit" disabled={isDisabled}>Sign in</button>
           </div>
         </form>
       </div>

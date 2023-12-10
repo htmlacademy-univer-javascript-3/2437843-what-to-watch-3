@@ -11,6 +11,7 @@ import {Loader} from '../parts/loader';
 import {Header} from '../parts/header';
 import {ReducerName} from '../../store/reducers/reducer-types';
 import {AuthStatus} from '../../types/auth-status';
+import {AddToFavoriteButton} from '../films/add-to-favorite-button';
 
 export function MoviePage(){
   const {id} = useParams();
@@ -56,14 +57,7 @@ export function MoviePage(){
                   </svg>
                   <span>Play</span>
                 </Link>
-                {authStatus === AuthStatus.Authorized &&
-                  <button className="btn btn--list film-card__button" type="button">
-                    <svg viewBox="0 0 19 20" width="19" height="20">
-                      <use xlinkHref="#add"></use>
-                    </svg>
-                    <span>My list</span>
-                    <span className="film-card__count">9</span>
-                  </button>}
+                {authStatus === AuthStatus.Authorized && <AddToFavoriteButton filmId={id} status={film.isFavorite}/>}
                 {authStatus === AuthStatus.Authorized && <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>}
               </div>
             </div>

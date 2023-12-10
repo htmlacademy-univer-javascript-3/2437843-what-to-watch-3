@@ -7,11 +7,14 @@ import {Loader} from '../parts/loader';
 import {FilmsListWithShowMore} from '../films/films-list-with-show-more';
 import {Header} from '../parts/header';
 import {ReducerName} from '../../store/reducers/reducer-types';
+import {AuthStatus} from '../../types/auth-status';
+import {AddToFavoriteButton} from '../films/add-to-favorite-button';
 
 export function MainPage(){
   const filteredFilms = useAppSelector((state) => state[ReducerName.Film].genreFilteredFilms);
   const promoFilm = useAppSelector((state) => state[ReducerName.Film].promoFilm);
   const isLoading = useAppSelector((state) => state[ReducerName.Film].isLoading);
+  const authStatus = useAppSelector((state) => state[ReducerName.Auth].authorizationStatus);
 
   if (promoFilm === null || isLoading) {
     return (<Loader/>);
@@ -45,13 +48,7 @@ export function MainPage(){
                   </svg>
                   <span>Play</span>
                 </Link>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
+                {authStatus === AuthStatus.Authorized && <AddToFavoriteButton filmId={promoFilm.id} status={promoFilm.isFavorite}/>}
               </div>
             </div>
           </div>

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import {App} from './app';
 import {Provider} from 'react-redux';
 import {store} from './store';
-import {checkAuth, fetchFilms, fetchPromo} from './store/api/api-actions';
+import {checkAuth, fetchFavoriteFilms, fetchFilms, fetchPromo} from './store/api/api-actions';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,6 +13,7 @@ const root = ReactDOM.createRoot(
 store.dispatch(fetchFilms());
 store.dispatch(fetchPromo());
 store.dispatch(checkAuth());
+store.dispatch(fetchFavoriteFilms());
 
 root.render(
   <React.StrictMode>

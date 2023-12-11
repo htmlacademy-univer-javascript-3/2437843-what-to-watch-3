@@ -2,7 +2,15 @@ import {createSlice} from '@reduxjs/toolkit';
 import {ReducerName} from '../reducer-types';
 import {setGenreFilter} from '../../action';
 import {ALL_GENRES} from '../../../consts';
-import {addReview, fetchFilm, fetchFilms, fetchPromo, fetchReviews, fetchSimilar} from '../../api/api-actions';
+import {
+  addReview, fetchFavoriteFilms,
+  fetchFilm,
+  fetchFilms,
+  fetchPromo,
+  fetchReviews,
+  fetchSimilar,
+  setFavoriteStatus
+} from '../../api/api-actions';
 import {FilmReducerState} from '../../../types/reducers/film-reducer-state';
 
 const initialState: FilmReducerState = {
@@ -15,6 +23,7 @@ const initialState: FilmReducerState = {
   promoFilm: null,
   selectedFilm: null,
   reviews: [],
+  favoriteFilms: [],
 };
 
 export const filmReducer = createSlice({
@@ -54,6 +63,20 @@ export const filmReducer = createSlice({
       })
       .addCase(addReview.fulfilled, (state, {payload}) => {
         state.reviews = state.reviews.concat(payload);
+      })
+      .addCase(setFavoriteStatus.fulfilled, (state, {payload}) => {
+        state.selectedFilm = payload;
+        if (payload.isFavorite) {
+          state.favoriteFilms.push(payload);
+        } else {
+          state.favoriteFilms = state.favoriteFilms.filter((film) => film.id !== payload.id);
+        }
+        if (state.promoFilm?.id === payload.id){
+          state.promoFilm = payload;
+        }
+      })
+      .addCase(fetchFavoriteFilms.fulfilled, (state, {payload}) => {
+        state.favoriteFilms = payload;
       });
   },
 });

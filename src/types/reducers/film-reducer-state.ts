@@ -11,4 +11,5 @@ export type FilmReducerState = {
   promoFilm: Film | null;
   selectedFilm: FilmFull | null;
   reviews: Array<Review>;
+  favoriteFilms: Array<FilmWithPreview>;
 }

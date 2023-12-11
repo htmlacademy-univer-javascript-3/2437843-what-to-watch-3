@@ -80,11 +80,10 @@ export const login = createAsyncThunk<User, AuthorizationData, {
       const {data} = await api.post<User>('/login', {email, password});
       return data;
     } catch (err) {
-      const error: AxiosError<ValidationError> = err as AxiosError<ValidationError>; // cast the error for access
+      const error: AxiosError<ValidationError> = err as AxiosError<ValidationError>;
       if (!error.response) {
         throw err;
       }
-      // We got validation errors, let's return those so we can reference in our component and set form errors
       return rejectWithValue(error.response.data);
     }
   },
@@ -121,6 +120,30 @@ export const addReview = createAsyncThunk<Review, CommentData, {
   '/comments/id',
   async ({comment, rating, filmId}, {extra: api}) => {
     const {data} = await api.post<Review>(`/comments/${filmId}`, {comment, rating});
+    return data;
+  },
+);
+
+export const setFavoriteStatus = createAsyncThunk<FilmFull, {status: boolean; filmId: string}, {
+  dispatch: AppDispatch;
+  state: RootState;
+  extra: AxiosInstance;
+}>(
+  '/favorite/id/status',
+  async ({status, filmId}, {extra: api}) => {
+    const {data} = await api.post<FilmFull>(`/favorite/${filmId}/${status ? 1 : 0}`);
+    return data;
+  },
+);
+
+export const fetchFavoriteFilms = createAsyncThunk<FilmWithPreview[], undefined, {
+  dispatch: AppDispatch;
+  state: RootState;
+  extra: AxiosInstance;
+}>(
+  '/favorite',
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<FilmWithPreview[]>('/favorite');
     return data;
   },
 );

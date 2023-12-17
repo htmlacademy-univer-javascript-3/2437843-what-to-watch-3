@@ -14,5 +14,5 @@ export const FILMS_PAGE_SIZE = 8;
 
 export const enum ReviewLimits {
   MaxLength = 400,
-  MinLength=50
+  MinLength = 50
 }

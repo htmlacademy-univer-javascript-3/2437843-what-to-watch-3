@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {App} from './app';
+import {App} from './components/app/app';
 import {Provider} from 'react-redux';
 import {store} from './store';
 import {checkAuth, fetchFavoriteFilms, fetchFilms, fetchPromo} from './store/api/api-actions';

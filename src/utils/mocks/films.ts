@@ -180,7 +180,7 @@ export const MOCK_FILMS_LIST: FilmWithPreview[] = [
 ];
 
 export const MOCK_FILM: FilmFull = {
-  'id': 'a2454fca-c47d-406a-94ac-cd9e9db7442c',
+  'id': '1',
   'name': 'Fantastic Beasts: The Crimes of Grindelwald',
   'posterImage': 'https://13.design.htmlacademy.pro/static/film/poster/Fantastic_Beasts.jpg',
   'backgroundImage': 'https://13.design.htmlacademy.pro/static/film/background/Fantastic_Beasts.jpg',

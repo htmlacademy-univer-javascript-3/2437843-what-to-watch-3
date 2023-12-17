@@ -2,10 +2,10 @@ import {FilmFull} from '../../types/film';
 import {useState} from 'react';
 import {TabType} from '../../consts';
 import cn from 'classnames';
-import {DetailsTab} from './details-tab';
-import {OverviewTab} from './overview-tab';
-import {NotFound} from '../pages/not-found';
-import {ReviewsTab} from './reviews-tab';
+import {DetailsTab} from './details-tab/details-tab';
+import {OverviewTab} from './overview-tab/overview-tab';
+import {NotFound} from '../not-found/not-found';
+import {ReviewsTab} from './reviews-tab/reviews-tab';
 import {Review} from '../../types/review';
 
 type TabsProps ={

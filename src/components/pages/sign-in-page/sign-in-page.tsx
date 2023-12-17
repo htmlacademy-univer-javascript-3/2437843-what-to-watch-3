@@ -22,7 +22,7 @@ export function SignInPage(){
   if (authStatus === AuthStatus.Authorized) {
     return <Navigate to={'/'}/>;
   }
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!email || !password || isDisabled){
       return;
@@ -48,7 +48,7 @@ export function SignInPage(){
       <Header/>
 
       <div className="sign-in user-page__content">
-        <form action="src/components/pages#" className="sign-in__form" onSubmit={onSubmit}>
+        <form action="src/components/pages#" className="sign-in__form" onSubmit={handleFormSubmit}>
           {error && (
             <div className="sign-in__message">
               <p>{error}</p>

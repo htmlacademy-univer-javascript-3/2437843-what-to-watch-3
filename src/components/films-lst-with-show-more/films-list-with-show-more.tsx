@@ -10,13 +10,13 @@ type FilmsListWithShowMoreProps = {
 
 export function FilmsListWithShowMore({films}: FilmsListWithShowMoreProps){
   const [showLimit, setShowLimit] = useState(INIT_FILMS_LIMIT);
-  const onShowMoreClick = useCallback(() => {
+  const handleShowMoreClick = useCallback(() => {
     setShowLimit((prevState) => prevState + FILMS_PAGE_SIZE);
   }, []);
   return (
     <>
       <FilmsList films={films.slice(0, showLimit)}/>
-      {showLimit < films.length && <ShowMoreButton onClick={onShowMoreClick}/>}
+      {showLimit < films.length && <ShowMoreButton onClick={handleShowMoreClick}/>}
     </>
   );
 }

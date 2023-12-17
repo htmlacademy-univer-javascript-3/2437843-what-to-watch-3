@@ -6,7 +6,7 @@ import {useAppDispatch} from '../../../store/hooks/use-app-dispatch';
 import {addReview, fetchFilm} from '../../../store/api/api-actions';
 import {Loader} from '../../loader/loader';
 import {Header} from '../../header/header';
-import {MAX_LEN_REVIEW, MIN_LEN_REVIEW} from '../../../consts';
+import {ReviewLimits} from '../../../consts';
 import {ReducerName} from '../../../store/reducers/reducer-types';
 
 export function AddReviewPage(){
@@ -30,8 +30,8 @@ export function AddReviewPage(){
   if (!film || !id){
     return (<NotFound/>);
   }
-  const isAbleToSubmit = selectedRating > 0 && reviewText.length >= MIN_LEN_REVIEW && reviewText.length <= MAX_LEN_REVIEW && !isDisabled;
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  const isAbleToSubmit = selectedRating > 0 && reviewText.length >= ReviewLimits.MinLength && reviewText.length <= ReviewLimits.MaxLength && !isDisabled;
+  function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!id || !isAbleToSubmit){
       return;
@@ -79,7 +79,7 @@ export function AddReviewPage(){
       </div>
 
       <div className="add-review">
-        <form action="src/components/pages#" className="add-review__form" onSubmit={onSubmit}>
+        <form action="src/components/pages#" className="add-review__form" onSubmit={handleFormSubmit}>
           <div className="rating">
             <div className="rating__stars">
               {[10, 9, 8, 7, 6, 5, 4, 3, 2, 1].map((num) => (
@@ -103,6 +103,7 @@ export function AddReviewPage(){
               value={reviewText}
               onChange={(event) => setReviewText(event.target.value)}
               placeholder="Review text"
+              maxLength={ReviewLimits.MaxLength}
             >
             </textarea>
             <div className="add-review__submit">

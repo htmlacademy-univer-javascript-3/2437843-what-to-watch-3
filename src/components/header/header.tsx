@@ -13,7 +13,7 @@ type HeaderProps = {
 export function Header({children}:HeaderProps){
   const authStatus = useAppSelector((state) => state[ReducerName.Auth].authorizationStatus);
   const dispatch = useAppDispatch();
-  const onClickLogout = () => {
+  const handleLogoutClick = () => {
     dispatch(logout());
   };
   return (
@@ -39,7 +39,7 @@ export function Header({children}:HeaderProps){
                 </div>
               </li>
               <li className="user-block__item">
-                <a className="user-block__link" onClick={onClickLogout}>Sign out</a>
+                <a className="user-block__link" onClick={handleLogoutClick}>Sign out</a>
               </li>
             </>)}
           {authStatus === AuthStatus.NoAuthorized &&

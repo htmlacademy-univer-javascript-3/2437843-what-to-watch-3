@@ -1,33 +1,14 @@
 import {render, screen} from '@testing-library/react';
-import {ReducerName} from '../../store/reducers/reducer-types';
 import {AuthStatus} from '../../types/auth-status';
-import {withRouter, withStore} from '../../utils/mocks/mock-components';
+import {getRootState, withRouter, withStore} from '../../utils/mocks/mock-components';
 import {App} from './app';
 import {MOCK_FILM} from '../../utils/mocks/films';
 import {RootState} from '../../store';
-import {ALL_GENRES} from '../../consts';
 
 
 const mockFilm = MOCK_FILM;
 
-const getRootState = (authStatus: AuthStatus): RootState => (
-  {
-    [ReducerName.Auth]:
-      {authorizationStatus: authStatus, userInfo: null, authError: null},
-    [ReducerName.Film]: {
-      selectedFilm: mockFilm,
-      genreFilter: ALL_GENRES,
-      genreFilteredFilms: [],
-      films: [],
-      similarFilms: [],
-      genres: [ALL_GENRES],
-      isLoading: false,
-      promoFilm: mockFilm,
-      reviews: [],
-      favoriteFilms: [],
-    }
-  }
-);
+
 describe('logged in routing', () => {
   const state: RootState = getRootState(AuthStatus.Authorized);
 

@@ -5,8 +5,8 @@ import {useAppDispatch} from '../../../store/hooks/use-app-dispatch';
 import {ChangeEvent, MouseEventHandler, MutableRefObject, useCallback, useEffect, useRef, useState} from 'react';
 import {fetchFilm} from '../../../store/api/api-actions';
 import {Loader} from '../../loader/loader';
-import {PlayIcon} from '../../icons/play-icon';
-import {PauseIcon} from '../../icons/pause-icon';
+import {PlayIcon} from '../../icons/play-icon/play-icon';
+import {PauseIcon} from '../../icons/pause-icon/pause-icon';
 import {getFilm, getLoadingStatus} from '../../../store/reducers/film-reducer/selectors';
 
 export function PlayerPage(){

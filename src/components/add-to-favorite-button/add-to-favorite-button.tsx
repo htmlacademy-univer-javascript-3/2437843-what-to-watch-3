@@ -4,11 +4,11 @@ import {useAppSelector} from '../../store/hooks/use-app-selector';
 import {setFavoriteStatus} from '../../store/api/api-actions';
 import {getFavoriteFilmsCount} from '../../store/reducers/film-reducer/selectors';
 
-type AddToFavoriteButton = {
+type AddToFavoriteButtonProps= {
   filmId: string;
   status: boolean;
 }
-export function AddToFavoriteButton({filmId, status}: AddToFavoriteButton){
+export function AddToFavoriteButton({filmId, status}: AddToFavoriteButtonProps){
   const dispatch = useAppDispatch();
   const favoriteCount = useAppSelector(getFavoriteFilmsCount);
 
@@ -20,8 +20,8 @@ export function AddToFavoriteButton({filmId, status}: AddToFavoriteButton){
     <button className="btn btn--list film-card__button" type="button" onClick={toggleFavorite}>
       {
         status ?
-          (<svg viewBox="0 0 19 20" width="19" height="20"><use xlinkHref="#in-list" /></svg>) :
-          (<svg viewBox="0 0 19 20" width="19" height="20"><use xlinkHref="#add" /></svg>)
+          (<svg viewBox="0 0 19 20" width="19" height="20"><use xlinkHref="#in-list" data-testid="in-list" /></svg>) :
+          (<svg viewBox="0 0 19 20" width="19" height="20"><use xlinkHref="#add" data-testid="add"/></svg>)
       }
       <span>My list</span>
       <span className="film-card__count">{favoriteCount}</span>

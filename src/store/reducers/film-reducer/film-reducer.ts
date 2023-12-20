@@ -77,6 +77,9 @@ export const filmReducer = createSlice({
       })
       .addCase(fetchFavoriteFilms.fulfilled, (state, {payload}) => {
         state.favoriteFilms = payload;
+      })
+      .addCase(fetchFavoriteFilms.rejected, (state) => {
+        state.favoriteFilms = [];
       });
   },
 });

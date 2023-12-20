@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {ReducerName} from '../reducer-types';
-import {setAuthError, setAuthStatus} from '../../action';
+import {setAuthError} from '../../action';
 import {
   checkAuth,
   login, logout
@@ -21,9 +21,6 @@ export const authReducer = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(setAuthStatus, (state, {payload}) => {
-        state.authorizationStatus = payload;
-      })
       .addCase(checkAuth.rejected, (state) => {
         state.authorizationStatus = AuthStatus.NoAuthorized;
       })
@@ -34,6 +31,7 @@ export const authReducer = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.authorizationStatus = AuthStatus.NoAuthorized;
+        state.userInfo = null;
         removeToken();
       })
       .addCase(login.fulfilled, (state, action) => {

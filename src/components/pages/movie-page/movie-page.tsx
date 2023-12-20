@@ -9,17 +9,23 @@ import {fetchFilm, fetchReviews, fetchSimilar} from '../../../store/api/api-acti
 import {useAppDispatch} from '../../../store/hooks/use-app-dispatch';
 import {Loader} from '../../loader/loader';
 import {Header} from '../../header/header';
-import {ReducerName} from '../../../store/reducers/reducer-types';
 import {AuthStatus} from '../../../types/auth-status';
 import {AddToFavoriteButton} from '../../add-to-favorite-button/add-to-favorite-button';
+import {
+  getFilm,
+  getFilmReviews,
+  getLoadingStatus,
+  getSimilarFilms
+} from '../../../store/reducers/film-reducer/selectors';
+import {getAuthorizationStatus} from '../../../store/reducers/auth-reducer/selectors';
 
 export function MoviePage(){
   const {id} = useParams();
-  const films = useAppSelector((state) => state[ReducerName.Film].similarFilms);
-  const isLoading = useAppSelector((state) => state[ReducerName.Film].isLoading);
-  const film = useAppSelector((state) => state[ReducerName.Film].selectedFilm);
-  const reviews = useAppSelector((state) => state[ReducerName.Film].reviews);
-  const authStatus = useAppSelector((state) => state[ReducerName.Auth].authorizationStatus);
+  const films = useAppSelector(getSimilarFilms);
+  const isLoading = useAppSelector(getLoadingStatus);
+  const film = useAppSelector(getFilm);
+  const reviews = useAppSelector(getFilmReviews);
+  const authStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (id) {

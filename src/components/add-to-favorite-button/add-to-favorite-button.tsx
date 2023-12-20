@@ -2,7 +2,7 @@ import {FormEvent} from 'react';
 import {useAppDispatch} from '../../store/hooks/use-app-dispatch';
 import {useAppSelector} from '../../store/hooks/use-app-selector';
 import {setFavoriteStatus} from '../../store/api/api-actions';
-import {ReducerName} from '../../store/reducers/reducer-types';
+import {getFavoriteFilmsCount} from '../../store/reducers/film-reducer/selectors';
 
 type AddToFavoriteButton = {
   filmId: string;
@@ -10,7 +10,7 @@ type AddToFavoriteButton = {
 }
 export function AddToFavoriteButton({filmId, status}: AddToFavoriteButton){
   const dispatch = useAppDispatch();
-  const favoriteCount = useAppSelector((state) => state[ReducerName.Film].favoriteFilms.length);
+  const favoriteCount = useAppSelector(getFavoriteFilmsCount);
 
   function toggleFavorite(event: FormEvent<HTMLButtonElement>) {
     event.preventDefault();

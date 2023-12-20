@@ -2,12 +2,12 @@ import {useDispatch} from 'react-redux';
 import cn from 'classnames';
 import {setGenreFilter} from '../../store/action';
 import {useAppSelector} from '../../store/hooks/use-app-selector';
-import {ReducerName} from '../../store/reducers/reducer-types';
+import {getAvailableGenres, getGenre} from '../../store/reducers/film-reducer/selectors';
 
 
 export function GenresList(){
-  const selectedGenre = useAppSelector((state) => state[ReducerName.Film].genreFilter);
-  const allGenres = useAppSelector((state) => state[ReducerName.Film].genres);
+  const selectedGenre = useAppSelector(getGenre);
+  const allGenres = useAppSelector(getAvailableGenres);
   const dispatch = useDispatch();
 
   return (

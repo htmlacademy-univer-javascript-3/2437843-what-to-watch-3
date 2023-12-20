@@ -7,15 +7,15 @@ import {AuthStatus} from '../../../types/auth-status';
 import {Navigate} from 'react-router-dom';
 import {login} from '../../../store/api/api-actions';
 import {setAuthError} from '../../../store/action';
-import {ReducerName} from '../../../store/reducers/reducer-types';
+import {getAuthError, getAuthorizationStatus} from '../../../store/reducers/auth-reducer/selectors';
 
 export function SignInPage(){
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
   const dispatch = useAppDispatch();
-  const authStatus = useAppSelector((state) => state[ReducerName.Auth].authorizationStatus);
-  const error = useAppSelector((state) => state[ReducerName.Auth].authError);
+  const authStatus = useAppSelector(getAuthorizationStatus);
+  const error = useAppSelector(getAuthError);
   useEffect(() => {
     dispatch(setAuthError(null));
   }, [dispatch]);

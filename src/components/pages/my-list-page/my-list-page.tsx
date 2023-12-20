@@ -2,10 +2,10 @@ import {FilmsList} from '../../films-list/films-list';
 import {useAppSelector} from '../../../store/hooks/use-app-selector';
 import {Header} from '../../header/header';
 import {Footer} from '../../footer/footer';
-import {ReducerName} from '../../../store/reducers/reducer-types';
+import {getFavoriteFilms} from '../../../store/reducers/film-reducer/selectors';
 
 export function MyListPage(){
-  const films = useAppSelector((state) => state[ReducerName.Film].favoriteFilms);
+  const films = useAppSelector(getFavoriteFilms);
   return (
     <div className="user-page">
       <Header/>

@@ -5,17 +5,17 @@ import {useAppDispatch} from '../../../store/hooks/use-app-dispatch';
 import {ChangeEvent, MouseEventHandler, MutableRefObject, useCallback, useEffect, useRef, useState} from 'react';
 import {fetchFilm} from '../../../store/api/api-actions';
 import {Loader} from '../../loader/loader';
-import {ReducerName} from '../../../store/reducers/reducer-types';
 import {PlayIcon} from '../../icons/play-icon';
 import {PauseIcon} from '../../icons/pause-icon';
+import {getFilm, getLoadingStatus} from '../../../store/reducers/film-reducer/selectors';
 
 export function PlayerPage(){
   const {id} = useParams();
   const navigate = useNavigate();
   const [viewedTime, setViewedTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const isLoading = useAppSelector((state) => state[ReducerName.Film].isLoading);
-  const film = useAppSelector((state) => state[ReducerName.Film].selectedFilm);
+  const isLoading = useAppSelector(getLoadingStatus);
+  const film = useAppSelector(getFilm);
   const dispatch = useAppDispatch();
   const videoRef = useRef() as MutableRefObject<HTMLVideoElement>;
   const playerScreenRef = useRef() as MutableRefObject<HTMLDivElement>;

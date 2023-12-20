@@ -6,15 +6,16 @@ import {useAppSelector} from '../../../store/hooks/use-app-selector';
 import {Loader} from '../../loader/loader';
 import {FilmsListWithShowMore} from '../../films-lst-with-show-more/films-list-with-show-more';
 import {Header} from '../../header/header';
-import {ReducerName} from '../../../store/reducers/reducer-types';
 import {AuthStatus} from '../../../types/auth-status';
 import {AddToFavoriteButton} from '../../add-to-favorite-button/add-to-favorite-button';
+import {getFilmsByGenre, getLoadingStatus, getPromoFilm} from '../../../store/reducers/film-reducer/selectors';
+import {getAuthorizationStatus} from '../../../store/reducers/auth-reducer/selectors';
 
 export function MainPage(){
-  const filteredFilms = useAppSelector((state) => state[ReducerName.Film].genreFilteredFilms);
-  const promoFilm = useAppSelector((state) => state[ReducerName.Film].promoFilm);
-  const isLoading = useAppSelector((state) => state[ReducerName.Film].isLoading);
-  const authStatus = useAppSelector((state) => state[ReducerName.Auth].authorizationStatus);
+  const filteredFilms = useAppSelector(getFilmsByGenre);
+  const promoFilm = useAppSelector(getPromoFilm);
+  const isLoading = useAppSelector(getLoadingStatus);
+  const authStatus = useAppSelector(getAuthorizationStatus);
 
   if (promoFilm === null || isLoading) {
     return (<Loader/>);

@@ -4,14 +4,15 @@ import {useAppSelector} from '../../store/hooks/use-app-selector';
 import {AuthStatus} from '../../types/auth-status';
 import {useAppDispatch} from '../../store/hooks/use-app-dispatch';
 import {logout} from '../../store/api/api-actions';
-import {ReducerName} from '../../store/reducers/reducer-types';
+import {getAuthorizationStatus, getUser} from '../../store/reducers/auth-reducer/selectors';
 
 
 type HeaderProps = {
   children?: JSX.Element;
 }
 export function Header({children}:HeaderProps){
-  const authStatus = useAppSelector((state) => state[ReducerName.Auth].authorizationStatus);
+  const authStatus = useAppSelector(getAuthorizationStatus);
+  const user = useAppSelector(getUser);
   const dispatch = useAppDispatch();
   const handleLogoutClick = () => {
     dispatch(logout());
@@ -29,12 +30,12 @@ export function Header({children}:HeaderProps){
         </div>
         {children}
         <ul className="user-block">
-          {authStatus === AuthStatus.Authorized && (
+          {authStatus === AuthStatus.Authorized && user && (
             <>
               <li className="user-block__item">
                 <div className="user-block__avatar">
                   <Link to={'/mylist'}>
-                    <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
+                    <img src={user.avatarUrl} alt={user.name} width="63" height="63"/>
                   </Link>
                 </div>
               </li>

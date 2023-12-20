@@ -12,12 +12,12 @@ export function AddToFavoriteButton({filmId, status}: AddToFavoriteButtonProps){
   const dispatch = useAppDispatch();
   const favoriteCount = useAppSelector(getFavoriteFilmsCount);
 
-  function toggleFavorite(event: FormEvent<HTMLButtonElement>) {
+  function handleToggleFavoriteClick(event: FormEvent<HTMLButtonElement>) {
     event.preventDefault();
     dispatch(setFavoriteStatus({status: !status, filmId: filmId}));
   }
   return (
-    <button className="btn btn--list film-card__button" type="button" onClick={toggleFavorite}>
+    <button className="btn btn--list film-card__button" type="button" onClick={handleToggleFavoriteClick}>
       {
         status ?
           (<svg viewBox="0 0 19 20" width="19" height="20"><use xlinkHref="#in-list" data-testid="in-list" /></svg>) :

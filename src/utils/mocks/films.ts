@@ -3,7 +3,7 @@ import {FilmFull, FilmWithPreview} from '../../types/film';
 
 export const MOCK_FILMS_LIST: FilmWithPreview[] = [
   {
-    'id': 'a2454fca-c47d-406a-94ac-cd9e9db7442c',
+    'id': '1',
     'name': 'Fantastic Beasts: The Crimes of Grindelwald',
     'previewImage': 'https://13.design.htmlacademy.pro/static/film/preview/fantastic-beasts-the-crimes-of-grindelwald.jpg',
     'previewVideoLink': 'https://13.design.htmlacademy.pro/static//film/video/traffic.mp4',

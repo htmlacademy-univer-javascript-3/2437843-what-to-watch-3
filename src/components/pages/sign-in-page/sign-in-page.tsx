@@ -48,20 +48,20 @@ export function SignInPage(){
       <Header/>
 
       <div className="sign-in user-page__content">
-        <form action="src/components/pages#" className="sign-in__form" onSubmit={handleFormSubmit}>
+        <form action="src/components/pages#" className="sign-in__form" data-testid="form" onSubmit={handleFormSubmit}>
           {error && (
             <div className="sign-in__message">
               <p>{error}</p>
             </div>)}
           <div className="sign-in__fields">
             <div className="sign-in__field">
-              <input className="sign-in__input" type="email" placeholder="Email address" name="user-email"
+              <input className="sign-in__input" type="email" placeholder="Email address" name="user-email" data-testid="email"
                 id="user-email" value={email} required onChange={(event) => setEmail(event.target.value)}
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
             </div>
             <div className="sign-in__field">
-              <input className="sign-in__input" type="password" placeholder="Password" name="user-password"
+              <input className="sign-in__input" type="password" placeholder="Password" name="user-password" data-testid="password"
                 id="user-password" required value={password} onChange={(event) => setPassword(event.target.value)}
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>

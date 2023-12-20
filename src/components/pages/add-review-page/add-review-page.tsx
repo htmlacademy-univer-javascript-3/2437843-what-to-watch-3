@@ -81,7 +81,7 @@ export function AddReviewPage(){
       <div className="add-review">
         <form action="src/components/pages#" className="add-review__form" onSubmit={handleFormSubmit}>
           <div className="rating">
-            <div className="rating__stars">
+            <div className="rating__stars" data-testid="stars-component">
               {[10, 9, 8, 7, 6, 5, 4, 3, 2, 1].map((num) => (
                 <Fragment key={num}>
                   <input className="rating__input"

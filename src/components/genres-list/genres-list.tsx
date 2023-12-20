@@ -14,7 +14,7 @@ export function GenresList(){
     <ul className="catalog__genres-list">
       {allGenres.map((genre) => (
         <li key={genre} className={cn('catalog__genres-item', {'catalog__genres-item--active': selectedGenre === genre})}>
-          <button onClick={() => dispatch(setGenreFilter(genre))} className="catalog__genres-link">{genre}</button>
+          <button onClick={() => dispatch(setGenreFilter(genre))} className="catalog__genres-link" data-testid={`button-genre-${genre}`}>{genre}</button>
         </li>
       ))}
     </ul>

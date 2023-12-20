@@ -3,10 +3,9 @@ import {AuthReducerState} from '../../../types/reducers/auth-reducer-state';
 import {AuthStatus} from '../../../types/auth-status';
 import {authReducer} from './auth-reducer';
 import {checkAuth, login, logout} from '../../api/api-actions';
-import {User} from '../../../types/user';
 import {setAuthError} from '../../action';
+import {MOCK_USER} from '../../../utils/mocks/user';
 
-const MOCK_USER: User = {email: 'test@test.ru', avatarUrl: 'some/path/to/image', name: 'test', token: 'testtest'};
 const MOCK_ERROR_MESSAGE = 'Some example error';
 describe('Auth reducer slice tests', () => {
   let state: AuthReducerState;

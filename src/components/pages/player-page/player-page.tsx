@@ -54,7 +54,7 @@ export function PlayerPage(){
     return (hours !== '00') ? `${hours}:${minutes}:${seconds}` : `${minutes}:${seconds}`;
   }
 
-  const togglePlayer = () => {
+  const handlePlayingControlClick = () => {
     if (!videoRef || !videoRef.current){
       return;
     }
@@ -65,7 +65,7 @@ export function PlayerPage(){
     }
   };
 
-  const toggleFullscreen: MouseEventHandler<HTMLButtonElement> = (event) => {
+  const handleFullscreenToggleClick: MouseEventHandler<HTMLButtonElement> = (event) => {
     event.stopPropagation();
     if (!document.fullscreenElement){
       if (!playerScreenRef || !playerScreenRef.current){
@@ -100,13 +100,13 @@ export function PlayerPage(){
           <div className="player__time-value">{getLeftTime()}</div>
         </div>
 
-        <div className="player__controls-row" onClick={togglePlayer}>
+        <div className="player__controls-row" onClick={handlePlayingControlClick}>
           <button type="button" className="player__play">
             {!isPlaying ? <PlayIcon/> : <PauseIcon/>}
           </button>
           <div className="player__name">Transpotting</div>
 
-          <button type="button" className="player__full-screen" onClick={toggleFullscreen}>
+          <button type="button" className="player__full-screen" onClick={handleFullscreenToggleClick}>
             <svg viewBox="0 0 27 27" width="27" height="27">
               <use xlinkHref="#full-screen"></use>
             </svg>

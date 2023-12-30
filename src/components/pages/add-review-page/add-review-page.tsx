@@ -48,6 +48,7 @@ export function AddReviewPage(){
       if (error.message) {
         setError(error.message);
       }
+      setIsDisabled(false);
     });
   }
   const handleRatingChange = (event: ChangeEvent<HTMLInputElement>) => setRating(parseInt(event.target.value, 10));

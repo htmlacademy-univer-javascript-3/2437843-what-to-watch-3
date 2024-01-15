@@ -3,6 +3,7 @@ import {render, screen} from '@testing-library/react';
 import {withRouter, withStore} from '../../../utils/mocks/mock-components';
 import {Route, Routes} from 'react-router-dom';
 import {PlayerPage} from './player-page';
+import {MOCK_FILM} from '../../../utils/mocks/films';
 
 
 describe('Component: PlayerPage', () => {
@@ -22,7 +23,7 @@ describe('Component: PlayerPage', () => {
 
     render(withStoreComponent);
 
-    expect(screen.getByText(/Transpotting/i)).toBeInTheDocument();
+    expect(screen.getByText(MOCK_FILM.name)).toBeInTheDocument();
     expect(screen.getByText(/Exit/i)).toBeInTheDocument();
     expect(screen.getByText('Full screen')).toBeInTheDocument();
     expect(screen.getByText('Play')).toBeInTheDocument();

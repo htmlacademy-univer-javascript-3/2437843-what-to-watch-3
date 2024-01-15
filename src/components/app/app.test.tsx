@@ -46,7 +46,6 @@ describe('logged in routing', () => {
     routes.push('/player/1');
     render(fakeApp);
     expect(screen.getByText(/Exit/i)).toBeInTheDocument();
-    expect(screen.getByText(/Transpotting/i)).toBeInTheDocument();
   });
 
   it('should render reviews editor when navigated to "/films/{id}/review"', () => {
@@ -102,7 +101,6 @@ describe('not logged in routing', () => {
     routes.push('/player/1');
     render(fakeApp);
     expect(screen.getByText(/Exit/i)).toBeInTheDocument();
-    expect(screen.getByText(/Transpotting/i)).toBeInTheDocument();
   });
 
   it('should render not found when navigated to non-existent route', () => {

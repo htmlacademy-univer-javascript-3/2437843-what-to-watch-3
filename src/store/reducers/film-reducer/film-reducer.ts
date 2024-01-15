@@ -52,6 +52,10 @@ export const filmReducer = createSlice({
         state.selectedFilm = action.payload;
         state.isLoading = false;
       })
+      .addCase(fetchFilm.rejected, (state) => {
+        state.isLoading = false;
+        state.selectedFilm = null;
+      })
       .addCase(fetchPromo.fulfilled, (state, action) => {
         state.promoFilm = action.payload;
       })

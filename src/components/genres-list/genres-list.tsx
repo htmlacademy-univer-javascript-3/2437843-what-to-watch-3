@@ -12,7 +12,7 @@ export function GenresList(){
 
   return (
     <ul className="catalog__genres-list">
-      {allGenres.map((genre) => (
+      {allGenres.slice(0, 10).map((genre) => (
         <li key={genre} className={cn('catalog__genres-item', {'catalog__genres-item--active': selectedGenre === genre})}>
           <button onClick={() => dispatch(setGenreFilter(genre))} className="catalog__genres-link" data-testid={`button-genre-${genre}`}>{genre}</button>
         </li>

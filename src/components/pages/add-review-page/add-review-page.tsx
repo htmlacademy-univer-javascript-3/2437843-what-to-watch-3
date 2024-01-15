@@ -89,6 +89,7 @@ export function AddReviewPage(){
                     id={`star-${num}`}
                     type="radio"
                     name="rating"
+                    disabled={isDisabled}
                     checked={selectedRating === num}
                     onChange={handleRatingChange}
                     value={num}
@@ -105,6 +106,7 @@ export function AddReviewPage(){
               onChange={(event) => setReviewText(event.target.value)}
               placeholder="Review text"
               maxLength={ReviewLimits.MaxLength}
+              disabled={isDisabled}
             >
             </textarea>
             <div className="add-review__submit">

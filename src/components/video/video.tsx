@@ -6,6 +6,7 @@ type VideoProps = {
   width: number;
   height: number;
   poster: string;
+  onClick?: () => void;
 }
 export function Video(props: VideoProps){
   return (
